@@ -426,7 +426,7 @@ function handleResponse(chosenKeyMeaning, timedOut = false) {
   const correctKey = currentTrial.correct_key;
   const isCorrect = (!timedOut) && (chosenKeyMeaning === correctKey);
 
-  const participantIdVal = elParticipantId.value.trim() || "P01";
+  const participantIdVal = getParticipantNumber();
 
   const trialRecord = {
     trial_index: currentTrialIndex + 1,
@@ -531,6 +531,12 @@ function showResults() {
   });
 }
 
+function getParticipantNumber() {
+  const digits = elParticipantId.value.replace(/\D/g, "");
+  if (!digits) return "01";
+  return digits.padStart(2, "0").slice(-2);
+}
+
 function downloadCsv() {
   if (recordedData.length === 0) return;
   const headers = Object.keys(recordedData[0]).join(",");
@@ -539,7 +545,7 @@ function downloadCsv() {
   
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
-  const pid = (elParticipantId.value.trim() || "P01").replace(/[^a-zA-Z0-9_-]/g, "_");
+  const pid = getParticipantNumber();
   link.setAttribute("href", encodedUri);
   link.setAttribute("download", `bertso_rhyme_${pid}_${Date.now()}.csv`);
   document.body.appendChild(link);
@@ -593,6 +599,10 @@ elBtnRestart.addEventListener("click", () => {
   setScreen("intro");
 });
 elBtnDownloadCsv.addEventListener("click", downloadCsv);
+
+elParticipantId.addEventListener("input", () => {
+  elParticipantId.value = elParticipantId.value.replace(/\D/g, "").slice(0, 2);
+});
 
 elLangToggle.addEventListener("click", () => {
   const nextLang = currentLang === "eu" ? "en" : "eu";
