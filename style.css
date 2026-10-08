@@ -1,6 +1,7 @@
 /* 
  * Stark Academic Psycholinguistics Theme
  * Replicating laboratory testing station appearance (PsychoPy / jsPsych)
+ * Basic system typography
  */
 
 :root {
@@ -11,9 +12,9 @@
   --text-secondary: #999999;
   --text-muted: #666666;
   --accent-white: #ffffff;
-  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --border-radius: 4px;
+  --font-system: Arial, Helvetica, sans-serif;
+  --font-mono: "Courier New", Courier, monospace;
+  --border-radius: 3px;
 }
 
 * {
@@ -54,7 +55,7 @@ body {
 
 .brand-title {
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: bold;
   color: var(--text-secondary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -103,15 +104,14 @@ body {
 
 /* TITLES & HEADINGS */
 .page-title {
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: var(--accent-white);
   margin-bottom: 6px;
-  letter-spacing: -0.01em;
 }
 
 .page-subtitle {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--text-secondary);
   margin-bottom: 24px;
   line-height: 1.4;
@@ -127,8 +127,8 @@ body {
 }
 
 .instruction-box h3 {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-secondary);
@@ -142,7 +142,7 @@ body {
   flex-direction: column;
   gap: 8px;
   color: #cccccc;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -167,7 +167,7 @@ body {
 .config-row label {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .config-row input {
@@ -186,52 +186,16 @@ body {
   border-color: #666666;
 }
 
-.group-select {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.group-btn {
+.keys-display {
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
   background: #0d0d0d;
   border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
   padding: 10px 14px;
-  color: var(--text-secondary);
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  transition: all 0.15s ease;
-}
-
-.group-btn:hover {
-  border-color: #555555;
-  color: var(--text-primary);
-}
-
-.group-btn.active {
-  border-color: var(--accent-white);
-  color: var(--accent-white);
-  background: #1a1a1a;
-}
-
-.group-title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.group-keys {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-muted);
-}
-
-.group-btn.active .group-keys {
-  color: #cccccc;
+  border-radius: var(--border-radius);
 }
 
 /* BUTTONS */
@@ -245,8 +209,8 @@ body {
   background: #2a2a2a;
   border: 1px solid #444444;
   color: var(--accent-white);
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: bold;
   letter-spacing: 0.04em;
   padding: 12px 28px;
   border-radius: var(--border-radius);
@@ -254,7 +218,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  transition: all 0.15s ease;
+  font-family: var(--font-system);
 }
 
 .btn-action:hover {
@@ -273,12 +237,12 @@ body {
   background: transparent;
   border: 1px solid var(--surface-border);
   color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.88rem;
+  font-weight: bold;
   padding: 10px 20px;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: all 0.15s ease;
+  font-family: var(--font-system);
 }
 
 .btn-secondary:hover {
@@ -314,7 +278,7 @@ body {
 .fixation-cross {
   font-family: var(--font-mono);
   font-size: 4rem;
-  font-weight: 300;
+  font-weight: normal;
   color: #dddddd;
   user-select: none;
   line-height: 1;
@@ -355,10 +319,9 @@ body {
 }
 
 .decision-prompt {
-  font-size: 2.2rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: bold;
   color: var(--accent-white);
-  letter-spacing: -0.01em;
 }
 
 .deadline-track {
@@ -405,7 +368,7 @@ body {
   align-items: center;
   gap: 6px;
   color: var(--text-primary);
-  transition: all 0.1s ease;
+  font-family: var(--font-system);
 }
 
 .stark-key-btn:hover {
@@ -427,8 +390,8 @@ body {
 }
 
 .key-label {
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: bold;
   color: var(--accent-white);
 }
 
@@ -440,8 +403,8 @@ body {
 }
 
 .feedback-text-title {
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: bold;
   letter-spacing: 0.05em;
   margin-bottom: 12px;
 }
@@ -479,14 +442,14 @@ body {
 .reminder-title {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .reminder-keys {
   font-family: var(--font-mono);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
@@ -511,8 +474,8 @@ body {
 
 .stat-number {
   font-family: var(--font-mono);
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: bold;
   color: var(--accent-white);
   margin-bottom: 4px;
 }
@@ -532,14 +495,14 @@ body {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   text-align: left;
 }
 
 .data-table th {
   background: #141414;
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: bold;
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -559,12 +522,12 @@ body {
 
 .corr-yes {
   color: #a5d6a7;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .corr-no {
   color: #ef9a9a;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .action-row {
@@ -577,7 +540,7 @@ body {
 /* FOOTER */
 .app-footer {
   text-align: center;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   padding: 6px 0;
 }
@@ -593,7 +556,8 @@ body {
   .stats-row {
     grid-template-columns: 1fr;
   }
-  .group-select {
-    grid-template-columns: 1fr;
+  .keys-display {
+    flex-direction: column;
+    gap: 6px;
   }
 }

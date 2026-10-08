@@ -1,7 +1,6 @@
 /**
  * Bertso Rhyme Judgment Task - Web Demo
  * Speeded 750 ms Rhyme Judgment Paradigm (Knoop et al., 2021 adaptation)
- * UIUC Basque Psycholinguistics Lab
  */
 
 // --- 1. Stimuli & Conditions Configuration ---
@@ -141,9 +140,8 @@ const I18N = {
       </ul>
     `,
     labelPid: "Parte-hartzaile zenbakia / Participant ID:",
-    labelGroup: "Erantzun-teklen kontra-oreka / Key mapping:",
-    groupA_keys: "[Ezker Shift] = Bai  |  [Eskuin Shift] = Ez",
-    groupB_keys: "[Ezker Shift] = Ez  |  [Eskuin Shift] = Bai",
+    labelGroup: "Erantzun-teklak / Response keys:",
+    keysDisplayHtml: "<span><strong>[Ezker Shift]</strong> = Bai (Errima)</span><span><strong>[Eskuin Shift]</strong> = Ez (Ez du errimarik)</span>",
     startPractice: "HASI PRAKTIKA",
     listeningStatus: "Entzuten... / Listening...",
     decisionPrompt: "Errima egin dute?",
@@ -188,9 +186,8 @@ const I18N = {
       </ul>
     `,
     labelPid: "Participant ID:",
-    labelGroup: "Key mapping counterbalancing:",
-    groupA_keys: "[Left Shift] = Yes  |  [Right Shift] = No",
-    groupB_keys: "[Left Shift] = No  |  [Right Shift] = Yes",
+    labelGroup: "Response keys:",
+    keysDisplayHtml: "<span><strong>[Left Shift]</strong> = Yes (Rhyme)</span><span><strong>[Right Shift]</strong> = No (No rhyme)</span>",
     startPractice: "START PRACTICE",
     listeningStatus: "Listening...",
     decisionPrompt: "Did they rhyme?",
@@ -222,7 +219,7 @@ const I18N = {
 };
 
 let currentLang = "eu";
-let selectedGroup = "A";
+const fixedGroup = "A"; // Left Shift = Bai / Right Shift = Ez
 
 // --- 3. Experiment State Variables ---
 let currentTrialIndex = -1;
@@ -246,8 +243,7 @@ const screens = {
 const elLangToggle = document.getElementById("langToggleBtn");
 const elLangLabel = document.getElementById("langLabel");
 const elParticipantId = document.getElementById("participantId");
-const elGroupBtnA = document.getElementById("groupToggleBtn");
-const elGroupBtnB = document.getElementById("groupToggleBtnB");
+const elKeysDisplay = document.getElementById("keysDisplay");
 const elBtnStartPractice = document.getElementById("btnStartPractice");
 const elBtnStartExperiment = document.getElementById("btnStartExperiment");
 const elBtnRestart = document.getElementById("btnRestart");
@@ -287,23 +283,19 @@ function setScreen(screenName) {
 
 function updateKeyLabels() {
   const t = I18N[currentLang];
-  if (selectedGroup === "A") {
-    elLeftKeyMeaning.textContent = currentLang === "eu" ? "Bai (Errima)" : "Yes (Rhyme)";
-    elRightKeyMeaning.textContent = currentLang === "eu" ? "Ez (Ez du errimarik)" : "No (No Rhyme)";
-    elReminderKeysText.innerHTML = `
-      <div>[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}] → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, rhyme"}</div>
-      <div>[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}] → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, do not rhyme"}</div>
-    `;
-  } else {
-    elLeftKeyMeaning.textContent = currentLang === "eu" ? "Ez (Ez du errimarik)" : "No (No Rhyme)";
-    elRightKeyMeaning.textContent = currentLang === "eu" ? "Bai (Errima)" : "Yes (Rhyme)";
-    elReminderKeysText.innerHTML = `
-      <div>[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}] → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, do not rhyme"}</div>
-      <div>[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}] → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, rhyme"}</div>
-    `;
-  }
+  elLeftKeyMeaning.textContent = currentLang === "eu" ? "Bai (Errima)" : "Yes (Rhyme)";
+  elRightKeyMeaning.textContent = currentLang === "eu" ? "Ez (Ez du errimarik)" : "No (No Rhyme)";
   elLeftKeyBadge.textContent = currentLang === "eu" ? "Ezker Shift" : "Left Shift";
   elRightKeyBadge.textContent = currentLang === "eu" ? "Eskuin Shift" : "Right Shift";
+
+  elReminderKeysText.innerHTML = `
+    <div>[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}] → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, rhyme"}</div>
+    <div>[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}] → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, do not rhyme"}</div>
+  `;
+
+  if (elKeysDisplay) {
+    elKeysDisplay.innerHTML = t.keysDisplayHtml;
+  }
 }
 
 function updateLanguage(lang) {
@@ -389,7 +381,6 @@ function runTrial(index) {
 
   audioPlayer.onended = () => {
     elAudioProgressBar.style.width = "100%";
-    // 50 ms post-stimulus buffer
     setTimeout(() => {
       startDecisionWindow();
     }, 50);
@@ -441,7 +432,7 @@ function handleResponse(chosenKeyMeaning, timedOut = false) {
     trial_index: currentTrialIndex + 1,
     is_practice: currentTrial.is_practice ? 1 : 0,
     participant: participantIdVal,
-    group: selectedGroup,
+    group: fixedGroup,
     audio_file: currentTrial.audio_file,
     depth: currentTrial.depth,
     rhyme_type: currentTrial.rhyme_type,
@@ -575,27 +566,23 @@ window.addEventListener("keydown", (e) => {
   if (isAcceptingResponse) {
     if (e.code === "ShiftLeft") {
       e.preventDefault();
-      const meaning = selectedGroup === "A" ? "b" : "e";
-      handleResponse(meaning, false);
+      handleResponse("b", false); // Left Shift = Bai (Rhyme)
     } else if (e.code === "ShiftRight") {
       e.preventDefault();
-      const meaning = selectedGroup === "A" ? "e" : "b";
-      handleResponse(meaning, false);
+      handleResponse("e", false); // Right Shift = Ez (No Rhyme)
     }
   }
 });
 
 elBtnLeft.addEventListener("click", () => {
   if (isAcceptingResponse) {
-    const meaning = selectedGroup === "A" ? "b" : "e";
-    handleResponse(meaning, false);
+    handleResponse("b", false);
   }
 });
 
 elBtnRight.addEventListener("click", () => {
   if (isAcceptingResponse) {
-    const meaning = selectedGroup === "A" ? "e" : "b";
-    handleResponse(meaning, false);
+    handleResponse("e", false);
   }
 });
 
@@ -610,20 +597,6 @@ elBtnDownloadCsv.addEventListener("click", downloadCsv);
 elLangToggle.addEventListener("click", () => {
   const nextLang = currentLang === "eu" ? "en" : "eu";
   updateLanguage(nextLang);
-});
-
-elGroupBtnA.addEventListener("click", () => {
-  selectedGroup = "A";
-  elGroupBtnA.classList.add("active");
-  elGroupBtnB.classList.remove("active");
-  updateKeyLabels();
-});
-
-elGroupBtnB.addEventListener("click", () => {
-  selectedGroup = "B";
-  elGroupBtnB.classList.add("active");
-  elGroupBtnA.classList.remove("active");
-  updateKeyLabels();
 });
 
 // Initialize
