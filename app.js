@@ -121,7 +121,6 @@ const EXPERIMENTAL_TRIALS = [
   }
 ];
 
-// Combine into total trial flow
 let allTrials = [];
 
 // --- 2. Internationalization / Bilingual Strings ---
@@ -129,47 +128,44 @@ const I18N = {
   eu: {
     langBtn: "English",
     appHeader: "Errima Epaite Lana",
-    introBadge: "Iparraldeko Bertsolaritza Paradigma",
     introTitle: "Errima Epaite Lana",
-    introSubtitle: "Knoop et al. (2021) paradigmaren egokitzapena bertso kupletetarako (<em>lau puntuko txikia</em>).",
+    introSubtitle: "Bertso-pareen entzutezko errima-erabaki lana (<em>lau puntuko txikia</em>).",
     instructions: `
-      <h3>🎯 Argibideak:</h3>
+      <h3>Argibideak:</h3>
       <ul>
-        <li>Bertso kuplet labur bat entzungo duzu (~15 segundo).</li>
-        <li>Ziurtatu <strong>bolumena/audioa piztuta</strong> duzula!</li>
-        <li>Audioa amaitu bezain laster, erabaki bi lerroen azken hitzek <strong>errima egiten duten ala ez</strong>.</li>
-        <li><strong>Garrantzitsua:</strong> Azkar erantzun behar duzu (<strong>750 ms</strong> erantzun-leihoa)!</li>
-        <li>Lehenik <strong>2 praktika-entsegu</strong> egingo dituzu berehalako itzuliarekin (feedback).</li>
+        <li>Bertso-kuplet bat entzungo duzu (~15 segundo). Ziurtatu audioa piztuta duzula.</li>
+        <li>Audioa amaitu bezain pronto, pantailan galdera agertuko da.</li>
+        <li>Erabaki bi lerroen amaierako hitzek <strong>errima egiten duten ala ez</strong>.</li>
+        <li><strong>Garrantzitsua:</strong> Erantzun ahal bezain azkar (<strong>750 ms</strong> erantzun-leihoa).</li>
+        <li>Lehenengo <strong>2 praktika-entsegu</strong> egingo dituzu zure erantzunaren itzuliarekin (feedback).</li>
       </ul>
     `,
-    labelPid: "Parte-hartzailea / Participant ID:",
-    labelGroup: "Kontra-oreka / Response Key Mapping:",
-    groupA_desc: "[Ezker Shift] = Bai  |  [Eskuin Shift] = Ez",
-    groupB_desc: "[Ezker Shift] = Ez  |  [Eskuin Shift] = Bai",
+    labelPid: "Parte-hartzaile zenbakia / Participant ID:",
+    labelGroup: "Erantzun-teklen kontra-oreka / Key mapping:",
+    groupA_keys: "[Ezker Shift] = Bai  |  [Eskuin Shift] = Ez",
+    groupB_keys: "[Ezker Shift] = Ez  |  [Eskuin Shift] = Bai",
     startPractice: "HASI PRAKTIKA",
-    pressSpaceOrClick: "(Sakatu Hemen edo Zuriunea)",
-    listeningTitle: "♪   Entzuten…   ♫",
-    listeningSub: "Bertsoa entzuten ari da (~15 s)... Arreta jarri azken hitzetan!",
+    listeningStatus: "Entzuten... / Listening...",
     decisionPrompt: "Errima egin dute?",
-    deadlineLabel: "⏱ 750 ms erantzun-leihoa",
-    practiceFeedbackCorrect: "Ondo!",
-    practiceFeedbackIncorrect: "Oker!",
-    practiceFeedbackTimeout: "Denboraz kanpo! (750 ms)",
+    deadlineLabel: "750 ms",
+    practiceFeedbackCorrect: "ZUZENA",
+    practiceFeedbackIncorrect: "OKERRA",
+    practiceFeedbackTimeout: "DENBORAZ KANPO (>750 ms)",
     practiceMeta: (cur, tot) => `Praktika ${cur} / ${tot}`,
     trialMeta: (cur, tot) => `Entsegua ${cur} / ${tot}`,
-    intermissionTitle: "Oso ongi!",
-    intermissionSubtitle: "Orain esperimentu nagusia hasiko da (8 entsegu).<br>Hemendik aurrera ez da itzulirik (feedbackik) izango.",
-    reminderHeading: "Gogoratu zure teklak:",
+    intermissionTitle: "Praktika Amaitu Da",
+    intermissionSubtitle: "Orain esperimentu nagusia hasiko da (8 entsegu).<br>Hemendik aurrera ez da itzulirik (feedbackik) emango.",
+    reminderHeading: "Teklen konfigurazioa:",
     startExp: "HASI ESPERIMENTUA",
     resultsTitle: "Emaitzak / Results",
-    resultsSubtitle: "Datuak arrakastaz grabatu dira. Ikus behean laburpena:",
+    resultsSubtitle: "Entseguen laburpena:",
     statAccuracy: "Zehaztasuna",
     statRt: "Batez besteko RT",
-    statTimeouts: "Iraungipenak (Timeouts)",
+    statTimeouts: "Timeouts (>750ms)",
     colNum: "#",
     colAudio: "Audio",
     colWords: "Puntuak",
-    colCond: "Baldintza",
+    colCond: "Mota",
     colResp: "Erantzuna",
     colRt: "RT",
     colCorrect: "Zuzena",
@@ -179,64 +175,60 @@ const I18N = {
   en: {
     langBtn: "Euskara",
     appHeader: "Bertso Rhyme Judgment Task",
-    introBadge: "Basque Oral Poetry Psycholinguistic Paradigm",
     introTitle: "Rhyme Judgment Task",
-    introSubtitle: "Adaptation of Knoop et al. (2021) speeded paradigm for sung bertso couplets (<em>lau puntuko txikia</em>).",
+    introSubtitle: "Auditory speeded rhyme judgment for sung bertso couplets (<em>lau puntuko txikia</em>).",
     instructions: `
-      <h3>🎯 Instructions:</h3>
+      <h3>Instructions:</h3>
       <ul>
-        <li>You will listen to a sung bertso couplet (~15 seconds).</li>
-        <li>Make sure your <strong>sound/volume is turned on</strong>!</li>
-        <li>As soon as the audio ends, decide whether the final words of the two lines <strong>rhyme or do not rhyme</strong>.</li>
-        <li><strong>Important:</strong> Respond as quickly as possible (strict <strong>750 ms</strong> deadline)!</li>
+        <li>You will listen to a sung bertso couplet (~15 seconds). Make sure audio is on.</li>
+        <li>As soon as the audio ends, the decision prompt will appear on screen.</li>
+        <li>Decide whether the final words of the two lines <strong>rhyme or do not rhyme</strong>.</li>
+        <li><strong>Important:</strong> Respond as quickly as possible (strict <strong>750 ms</strong> deadline).</li>
         <li>First, you will complete <strong>2 practice trials</strong> with immediate feedback.</li>
       </ul>
     `,
     labelPid: "Participant ID:",
-    labelGroup: "Counterbalancing / Response Key Mapping:",
-    groupA_desc: "[Left Shift] = Rhyme (Yes)  |  [Right Shift] = Non-Rhyme (No)",
-    groupB_desc: "[Left Shift] = Non-Rhyme (No)  |  [Right Shift] = Rhyme (Yes)",
+    labelGroup: "Key mapping counterbalancing:",
+    groupA_keys: "[Left Shift] = Yes  |  [Right Shift] = No",
+    groupB_keys: "[Left Shift] = No  |  [Right Shift] = Yes",
     startPractice: "START PRACTICE",
-    pressSpaceOrClick: "(Click Here or Press Space)",
-    listeningTitle: "♪   Listening…   ♫",
-    listeningSub: "Listening to sung couplet (~15 s)... Attend to the rhyming positions!",
+    listeningStatus: "Listening...",
     decisionPrompt: "Did they rhyme?",
-    deadlineLabel: "⏱ 750 ms decision window",
-    practiceFeedbackCorrect: "Correct!",
-    practiceFeedbackIncorrect: "Incorrect!",
-    practiceFeedbackTimeout: "Too Slow! (750 ms limit)",
+    deadlineLabel: "750 ms",
+    practiceFeedbackCorrect: "CORRECT",
+    practiceFeedbackIncorrect: "INCORRECT",
+    practiceFeedbackTimeout: "TIMEOUT (>750 ms)",
     practiceMeta: (cur, tot) => `Practice ${cur} / ${tot}`,
     trialMeta: (cur, tot) => `Trial ${cur} / ${tot}`,
-    intermissionTitle: "Great job!",
-    intermissionSubtitle: "Now the main experimental block begins (8 trials).<br>No trial feedback will be provided from this point forward.",
-    reminderHeading: "Remember your keys:",
+    intermissionTitle: "Practice Completed",
+    intermissionSubtitle: "Now the experimental block begins (8 trials).<br>No feedback will be provided during this phase.",
+    reminderHeading: "Key configuration:",
     startExp: "START EXPERIMENT",
     resultsTitle: "Results Summary",
-    resultsSubtitle: "Demo complete! Data recorded below:",
+    resultsSubtitle: "Summary of experimental session:",
     statAccuracy: "Accuracy",
     statRt: "Mean RT",
     statTimeouts: "Timeouts (>750ms)",
     colNum: "#",
     colAudio: "Audio",
     colWords: "Rhyme Words",
-    colCond: "Condition",
+    colCond: "Type",
     colResp: "Response",
     colRt: "RT",
     colCorrect: "Correct",
     downloadCsv: "Download CSV",
-    restart: "Restart Demo"
+    restart: "Restart"
   }
 };
 
-let currentLang = "eu"; // 'eu' or 'en'
-let selectedGroup = "A"; // 'A' or 'B'
+let currentLang = "eu";
+let selectedGroup = "A";
 
 // --- 3. Experiment State Variables ---
 let currentTrialIndex = -1;
 let currentTrial = null;
 let trialStartTime = null;
 let deadlineTimeoutId = null;
-let deadlineAnimFrameId = null;
 let isAcceptingResponse = false;
 let recordedData = [];
 let audioPlayer = new Audio();
@@ -264,6 +256,7 @@ const elBtnDownloadCsv = document.getElementById("btnDownloadCsv");
 // Trial visual elements
 const elListeningTrialMeta = document.getElementById("listeningTrialMeta");
 const elDecisionTrialMeta = document.getElementById("decisionTrialMeta");
+const elListeningStatus = document.getElementById("listeningStatus");
 const elAudioProgressBar = document.getElementById("audioProgressBar");
 const elDeadlineTimerBar = document.getElementById("deadlineTimerBar");
 const elLeftKeyBadge = document.getElementById("leftKeyBadge");
@@ -274,7 +267,6 @@ const elBtnLeft = document.getElementById("btnLeft");
 const elBtnRight = document.getElementById("btnRight");
 
 // Feedback elements
-const elFeedbackIcon = document.getElementById("feedbackIcon");
 const elFeedbackTitle = document.getElementById("feedbackTitle");
 const elFeedbackDetails = document.getElementById("feedbackDetails");
 
@@ -296,20 +288,18 @@ function setScreen(screenName) {
 function updateKeyLabels() {
   const t = I18N[currentLang];
   if (selectedGroup === "A") {
-    // Left: Bai (Rhyme), Right: Ez (No rhyme)
     elLeftKeyMeaning.textContent = currentLang === "eu" ? "Bai (Errima)" : "Yes (Rhyme)";
     elRightKeyMeaning.textContent = currentLang === "eu" ? "Ez (Ez du errimarik)" : "No (No Rhyme)";
     elReminderKeysText.innerHTML = `
-      <div><span class="key-chip">[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}]</span> → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, they rhyme"}</div>
-      <div><span class="key-chip">[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}]</span> → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, they do not rhyme"}</div>
+      <div>[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}] → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, rhyme"}</div>
+      <div>[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}] → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, do not rhyme"}</div>
     `;
   } else {
-    // Left: Ez (No rhyme), Right: Bai (Rhyme)
     elLeftKeyMeaning.textContent = currentLang === "eu" ? "Ez (Ez du errimarik)" : "No (No Rhyme)";
     elRightKeyMeaning.textContent = currentLang === "eu" ? "Bai (Errima)" : "Yes (Rhyme)";
     elReminderKeysText.innerHTML = `
-      <div><span class="key-chip">[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}]</span> → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, they do not rhyme"}</div>
-      <div><span class="key-chip">[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}]</span> → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, they rhyme"}</div>
+      <div>[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}] → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, do not rhyme"}</div>
+      <div>[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}] → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, rhyme"}</div>
     `;
   }
   elLeftKeyBadge.textContent = currentLang === "eu" ? "Ezker Shift" : "Left Shift";
@@ -321,17 +311,14 @@ function updateLanguage(lang) {
   const t = I18N[lang];
   elLangLabel.textContent = t.langBtn;
   document.getElementById("appHeaderTitle").textContent = t.appHeader;
-  document.getElementById("introBadge").textContent = t.introBadge;
   document.getElementById("introTitle").textContent = t.introTitle;
   document.getElementById("introSubtitle").innerHTML = t.introSubtitle;
   document.getElementById("introInstructions").innerHTML = t.instructions;
   document.getElementById("labelPid").textContent = t.labelPid;
   document.getElementById("labelGroup").textContent = t.labelGroup;
   document.getElementById("startPracticeLabel").textContent = t.startPractice;
-  document.querySelector("#btnStartPractice .btn-subtext").textContent = t.pressSpaceOrClick;
   
-  document.getElementById("listeningTitle").textContent = t.listeningTitle;
-  document.getElementById("listeningSub").textContent = t.listeningSub;
+  if (elListeningStatus) elListeningStatus.textContent = t.listeningStatus;
   document.getElementById("decisionPrompt").textContent = t.decisionPrompt;
   document.getElementById("deadlineLabel").textContent = t.deadlineLabel;
   
@@ -339,7 +326,6 @@ function updateLanguage(lang) {
   document.getElementById("intermissionSubtitle").innerHTML = t.intermissionSubtitle;
   document.getElementById("reminderHeading").textContent = t.reminderHeading;
   document.getElementById("startExpLabel").textContent = t.startExp;
-  document.querySelector("#btnStartExperiment .btn-subtext").textContent = t.pressSpaceOrClick;
 
   document.getElementById("resultsTitle").textContent = t.resultsTitle;
   document.getElementById("resultsSubtitle").textContent = t.resultsSubtitle;
@@ -368,7 +354,7 @@ function startPractice() {
 }
 
 function startExperiment() {
-  currentTrialIndex = PRACTICE_TRIALS.length; // Jump to trial 2 (0-indexed = trial 3)
+  currentTrialIndex = PRACTICE_TRIALS.length;
   runTrial(currentTrialIndex);
 }
 
@@ -381,7 +367,6 @@ function runTrial(index) {
   currentTrial = allTrials[index];
   const t = I18N[currentLang];
 
-  // Update trial pill
   const metaText = currentTrial.is_practice 
     ? t.practiceMeta(currentTrial.practice_index, PRACTICE_TRIALS.length)
     : t.trialMeta(currentTrial.exp_index, EXPERIMENTAL_TRIALS.length);
@@ -389,11 +374,9 @@ function runTrial(index) {
   elListeningTrialMeta.textContent = metaText;
   elDecisionTrialMeta.textContent = metaText;
 
-  // Switch to listening screen
   setScreen("listening");
   elAudioProgressBar.style.width = "0%";
 
-  // Play audio
   audioPlayer.src = currentTrial.audio_file;
   audioPlayer.currentTime = 0;
 
@@ -406,23 +389,21 @@ function runTrial(index) {
 
   audioPlayer.onended = () => {
     elAudioProgressBar.style.width = "100%";
-    // 50 ms post-stimulus buffer as in Knoop et al. replication
+    // 50 ms post-stimulus buffer
     setTimeout(() => {
       startDecisionWindow();
     }, 50);
   };
 
   audioPlayer.onerror = (e) => {
-    console.error("Audio playback error:", e);
-    // Fallback if audio fails to load
+    console.error("Audio error:", e);
     setTimeout(() => {
       startDecisionWindow();
     }, 1500);
   };
 
   audioPlayer.play().catch(err => {
-    console.warn("Autoplay prevented or interrupted:", err);
-    // User might need a gesture
+    console.warn("Audio play prevented:", err);
   });
 }
 
@@ -431,16 +412,12 @@ function startDecisionWindow() {
   isAcceptingResponse = true;
   trialStartTime = performance.now();
 
-  // Reset deadline animation bar
   elDeadlineTimerBar.style.transition = "none";
   elDeadlineTimerBar.style.transform = "scaleX(1)";
-  // Force reflow
   void elDeadlineTimerBar.offsetWidth;
-  // Animate over 750ms to 0
   elDeadlineTimerBar.style.transition = "transform 750ms linear";
   elDeadlineTimerBar.style.transform = "scaleX(0)";
 
-  // Strict 750 ms deadline timer
   clearTimeout(deadlineTimeoutId);
   deadlineTimeoutId = setTimeout(() => {
     if (isAcceptingResponse) {
@@ -455,13 +432,15 @@ function handleResponse(chosenKeyMeaning, timedOut = false) {
   clearTimeout(deadlineTimeoutId);
 
   const rt = timedOut ? 750 : Math.round(performance.now() - trialStartTime);
-  const correctKey = currentTrial.correct_key; // 'b' (rhyme) or 'e' (no rhyme)
+  const correctKey = currentTrial.correct_key;
   const isCorrect = (!timedOut) && (chosenKeyMeaning === correctKey);
+
+  const participantIdVal = elParticipantId.value.trim() || "P01";
 
   const trialRecord = {
     trial_index: currentTrialIndex + 1,
     is_practice: currentTrial.is_practice ? 1 : 0,
-    participant: elParticipantId.value || "Anonymous",
+    participant: participantIdVal,
     group: selectedGroup,
     audio_file: currentTrial.audio_file,
     depth: currentTrial.depth,
@@ -479,11 +458,9 @@ function handleResponse(chosenKeyMeaning, timedOut = false) {
 
   recordedData.push(trialRecord);
 
-  // If Practice Trial: Show 1200 ms feedback
   if (currentTrial.is_practice) {
     showPracticeFeedback(isCorrect, timedOut, rt);
   } else {
-    // Experimental trial: 400 ms ISI blank fixation then next
     setTimeout(() => {
       advanceTrial();
     }, 400);
@@ -495,30 +472,26 @@ function showPracticeFeedback(isCorrect, timedOut, rt) {
   const t = I18N[currentLang];
 
   if (timedOut) {
-    elFeedbackIcon.textContent = "⏱";
-    elFeedbackIcon.className = "feedback-icon timeout";
+    elFeedbackTitle.className = "feedback-text-title timeout";
     elFeedbackTitle.textContent = t.practiceFeedbackTimeout;
     elFeedbackDetails.textContent = currentLang === "eu" ? "Erantzun 750 ms baino lehen!" : "Respond before the 750 ms deadline!";
   } else if (isCorrect) {
-    elFeedbackIcon.textContent = "✓";
-    elFeedbackIcon.className = "feedback-icon correct";
+    elFeedbackTitle.className = "feedback-text-title correct";
     elFeedbackTitle.textContent = t.practiceFeedbackCorrect;
-    elFeedbackDetails.textContent = `${currentLang === "eu" ? "Erantzun-denbora" : "Reaction Time"}: ${rt} ms`;
+    elFeedbackDetails.textContent = `RT: ${rt} ms`;
   } else {
-    elFeedbackIcon.textContent = "✗";
-    elFeedbackIcon.className = "feedback-icon incorrect";
+    elFeedbackTitle.className = "feedback-text-title incorrect";
     elFeedbackTitle.textContent = t.practiceFeedbackIncorrect;
-    elFeedbackDetails.textContent = `${currentLang === "eu" ? "Erantzun-denbora" : "Reaction Time"}: ${rt} ms`;
+    elFeedbackDetails.textContent = `RT: ${rt} ms`;
   }
 
   setTimeout(() => {
     advanceTrial();
-  }, 1300);
+  }, 1200);
 }
 
 function advanceTrial() {
   currentTrialIndex++;
-  // If we just finished practice trials (2 trials total), show intermission
   if (currentTrialIndex === PRACTICE_TRIALS.length) {
     setScreen("intermission");
   } else {
@@ -544,12 +517,11 @@ function showResults() {
   elStatMeanRt.textContent = `${meanRt} ms`;
   elStatTimeouts.textContent = `${timeoutCount}`;
 
-  // Populate Table
   elResultsTableBody.innerHTML = "";
-  recordedData.forEach((row, i) => {
+  recordedData.forEach((row) => {
     const tr = document.createElement("tr");
     const audioName = row.audio_file.split("/").pop();
-    const isPracticeTag = row.is_practice ? "(P) " : "";
+    const isPracticeTag = row.is_practice ? "P" : "E";
     
     let respText = row.response_key === "b" ? "Bai" : row.response_key === "e" ? "Ez" : "TIMEOUT";
     let corrClass = row.is_correct === 1 ? "corr-yes" : "corr-no";
@@ -557,9 +529,9 @@ function showResults() {
 
     tr.innerHTML = `
       <td>${isPracticeTag}${row.trial_index}</td>
-      <td title="${audioName}">${audioName.substring(0, 16)}…</td>
-      <td><strong>${row.puntua1}</strong> / <strong>${row.puntua2}</strong></td>
-      <td><span class="cond-pill cond-${row.rhyme_type}">${row.rhyme_type} (d${row.depth})</span></td>
+      <td title="${audioName}">${audioName.substring(0, 18)}…</td>
+      <td>${row.puntua1} / ${row.puntua2}</td>
+      <td>${row.rhyme_type} (d${row.depth})</td>
       <td>${respText}</td>
       <td>${row.rt} ms</td>
       <td class="${corrClass}">${corrSymbol}</td>
@@ -576,7 +548,7 @@ function downloadCsv() {
   
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
-  const pid = (elParticipantId.value || "demo").replace(/[^a-zA-Z0-9_-]/g, "_");
+  const pid = (elParticipantId.value.trim() || "P01").replace(/[^a-zA-Z0-9_-]/g, "_");
   link.setAttribute("href", encodedUri);
   link.setAttribute("download", `bertso_rhyme_${pid}_${Date.now()}.csv`);
   document.body.appendChild(link);
@@ -585,9 +557,7 @@ function downloadCsv() {
 }
 
 // --- 8. Event Listeners & Keyboard Handling ---
-// Key event handler
 window.addEventListener("keydown", (e) => {
-  // Allow spacebar to advance on Intro or Intermission screens
   if (screens.intro.classList.contains("active") && (e.code === "Space" || e.code === "Enter")) {
     if (document.activeElement !== elParticipantId) {
       e.preventDefault();
@@ -602,23 +572,19 @@ window.addEventListener("keydown", (e) => {
     return;
   }
 
-  // Shift Key Handling on Decision Screen
   if (isAcceptingResponse) {
     if (e.code === "ShiftLeft") {
       e.preventDefault();
-      // If Group A: Left = 'b' (Bai), If Group B: Left = 'e' (Ez)
       const meaning = selectedGroup === "A" ? "b" : "e";
       handleResponse(meaning, false);
     } else if (e.code === "ShiftRight") {
       e.preventDefault();
-      // If Group A: Right = 'e' (Ez), If Group B: Right = 'b' (Bai)
       const meaning = selectedGroup === "A" ? "e" : "b";
       handleResponse(meaning, false);
     }
   }
 });
 
-// Click handlers for UI buttons
 elBtnLeft.addEventListener("click", () => {
   if (isAcceptingResponse) {
     const meaning = selectedGroup === "A" ? "b" : "e";
@@ -641,13 +607,11 @@ elBtnRestart.addEventListener("click", () => {
 });
 elBtnDownloadCsv.addEventListener("click", downloadCsv);
 
-// Language toggle
 elLangToggle.addEventListener("click", () => {
   const nextLang = currentLang === "eu" ? "en" : "eu";
   updateLanguage(nextLang);
 });
 
-// Group selection toggle
 elGroupBtnA.addEventListener("click", () => {
   selectedGroup = "A";
   elGroupBtnA.classList.add("active");
@@ -662,6 +626,6 @@ elGroupBtnB.addEventListener("click", () => {
   updateKeyLabels();
 });
 
-// Initial Setup
+// Initialize
 updateLanguage("eu");
 updateKeyLabels();
