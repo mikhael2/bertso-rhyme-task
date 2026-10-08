@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Errima Epaite Lana — Bertso Rhyme Judgment Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="brand">
+        <span class="brand-badge">BERTSO-PSYCH</span>
+        <span class="brand-title" id="appHeaderTitle">Errima Epaite Lana</span>
+      </div>
+      <div class="header-controls">
+        <button id="langToggleBtn" class="pill-btn lang-btn" title="Hizkuntza aldatu / Change language">
+          🌐 <span id="langLabel">English</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Screen Card -->
+    <main class="main-card" id="cardContainer">
+
+      <!-- SCREEN 1: Welcome & Instructions -->
+      <section id="screenIntro" class="screen-section active">
+        <div class="hero-badge" id="introBadge">Iparraldeko Bertsolaritza Paradigma</div>
+        <h1 class="hero-title" id="introTitle">Errima Epaite Lana</h1>
+        <p class="hero-subtitle" id="introSubtitle">
+          Knoop et al. (2021) paradigmaren egokitzapena bertso kupletetarako (<em>lau puntuko txikia</em>).
+        </p>
+
+        <div class="instruction-box" id="introInstructions">
+          <h3>🎯 Argibideak:</h3>
+          <ul>
+            <li>Bertso kuplet labur bat entzungo duzu (~15 segundo).</li>
+            <li>Ziurtatu <strong>bolumena/audioa piztuta</strong> duzula!</li>
+            <li>Audioa amaitu bezain laster, erabaki bi lerroen azken hitzek <strong>errima egiten duten ala ez</strong>.</li>
+            <li><strong>Garrantzitsua:</strong> Azkar erantzun behar duzu (<strong>750 ms</strong> erantzun-leihoa)!</li>
+            <li>Lehenik <strong>2 praktika-entsegu</strong> egingo dituzu berehalako itzuliarekin (feedback).</li>
+          </ul>
+        </div>
+
+        <div class="config-panel">
+          <div class="config-group">
+            <label for="participantId" id="labelPid">Parte-hartzailea / Participant ID:</label>
+            <input type="text" id="participantId" value="Varun" placeholder="Varun" spellcheck="false">
+          </div>
+
+          <div class="config-group">
+            <label id="labelGroup">Kontra-oreka / Response Key Mapping:</label>
+            <div class="group-toggle-container">
+              <button id="groupToggleBtn" class="group-btn active" data-group="A">
+                <span class="group-name">Taldea A</span>
+                <span class="group-desc">[Ezker Shift] = Bai  |  [Eskuin Shift] = Ez</span>
+              </button>
+              <button id="groupToggleBtnB" class="group-btn" data-group="B">
+                <span class="group-name">Taldea B</span>
+                <span class="group-desc">[Ezker Shift] = Ez  |  [Eskuin Shift] = Bai</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-footer">
+          <button id="btnStartPractice" class="btn-primary">
+            <span id="startPracticeLabel">HASI PRAKTIKA</span>
+            <span class="btn-subtext">(Sakatu Hemen edo Zuriunea)</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Audio Playing -->
+      <section id="screenListening" class="screen-section">
+        <div class="trial-meta-pill" id="listeningTrialMeta">Praktika 1 / 2</div>
+        <div class="waveform-animation">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+        <h2 class="listening-title" id="listeningTitle">♪   Entzuten…   ♫</h2>
+        <p class="listening-sub" id="listeningSub">
+          Bertsoa entzuten ari da (~15 s)... Arreta jarri azken hitzetan!
+        </p>
+        <div class="audio-progress-bar-container">
+          <div class="audio-progress-bar" id="audioProgressBar"></div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Decision Window (750ms) -->
+      <section id="screenDecision" class="screen-section">
+        <div class="trial-meta-pill" id="decisionTrialMeta">Praktika 1 / 2</div>
+        <h2 class="decision-prompt" id="decisionPrompt">Errima egin dute?</h2>
+
+        <!-- 750ms Deadline Timer Bar -->
+        <div class="deadline-timer-container">
+          <div class="deadline-timer-bar" id="deadlineTimerBar"></div>
+        </div>
+        <p class="deadline-label" id="deadlineLabel">⏱ 750 ms erantzun-leihoa</p>
+
+        <div class="response-buttons">
+          <button id="btnLeft" class="response-btn btn-left-key">
+            <span class="key-badge" id="leftKeyBadge">Ezker Shift</span>
+            <span class="key-meaning" id="leftKeyMeaning">Bai (Errima)</span>
+          </button>
+          <button id="btnRight" class="response-btn btn-right-key">
+            <span class="key-meaning" id="rightKeyMeaning">Ez (Ez du errimarik)</span>
+            <span class="key-badge" id="rightKeyBadge">Eskuin Shift</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: Feedback (Practice only) -->
+      <section id="screenFeedback" class="screen-section">
+        <div class="feedback-icon" id="feedbackIcon">✓</div>
+        <h2 class="feedback-title" id="feedbackTitle">Ondo!</h2>
+        <p class="feedback-details" id="feedbackDetails">Erantzun-denbora: 240 ms</p>
+      </section>
+
+      <!-- SCREEN 5: Intermission (End of practice) -->
+      <section id="screenIntermission" class="screen-section">
+        <div class="hero-badge">Praktika Amaitu Da</div>
+        <h2 class="hero-title" id="intermissionTitle">Oso ongi!</h2>
+        <p class="hero-subtitle" id="intermissionSubtitle">
+          Orain esperimentu nagusia hasiko da (8 entsegu).<br>
+          Hemendik aurrera ez da itzulirik (feedbackik) izango.
+        </p>
+        <div class="reminder-box">
+          <h4 id="reminderHeading">Gogoratu zure teklak:</h4>
+          <div class="reminder-keys" id="reminderKeysText">
+            <div><span class="key-chip">[Ezker Shift]</span> → Bai, errima dute</div>
+            <div><span class="key-chip">[Eskuin Shift]</span> → Ez, ez dute errimarik</div>
+          </div>
+        </div>
+        <div class="action-footer">
+          <button id="btnStartExperiment" class="btn-primary">
+            <span id="startExpLabel">HASI ESPERIMENTUA</span>
+            <span class="btn-subtext">(Sakatu Hemen edo Zuriunea)</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 6: Results -->
+      <section id="screenResults" class="screen-section">
+        <div class="hero-badge">Demoa Amaitu Da</div>
+        <h2 class="hero-title" id="resultsTitle">Emaitzak / Results</h2>
+        <p class="hero-subtitle" id="resultsSubtitle">
+          Datuak arrakastaz grabatu dira. Ikus behean laburpena:
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="statAccuracy">100%</span>
+            <span class="stat-label" id="statAccuracyLabel">Zehaztasuna / Accuracy</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statMeanRt">245 ms</span>
+            <span class="stat-label" id="statRtLabel">Batez besteko RT</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statTimeouts">0</span>
+            <span class="stat-label" id="statTimeoutsLabel">Iraungipenak (Timeouts)</span>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="results-table" id="resultsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Audio</th>
+                <th>Puntuak</th>
+                <th>Baldintza</th>
+                <th>Erantzuna</th>
+                <th>RT</th>
+                <th>Zuzena</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="action-footer results-actions">
+          <button id="btnDownloadCsv" class="btn-secondary">
+            📥 <span id="downloadCsvLabel">Deskargatu CSV</span>
+          </button>
+          <button id="btnRestart" class="btn-primary">
+            🔄 <span id="restartLabel">Berriro Hasi / Restart</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>UIUC Basque Psycholinguistics Lab • Mikhael Hayes (2026)</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
