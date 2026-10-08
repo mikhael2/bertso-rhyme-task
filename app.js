@@ -1,6 +1,6 @@
 /**
- * Bertso Rhyme Judgment Task - Web Demo
- * Speeded 750 ms Rhyme Judgment Paradigm (Knoop et al., 2021 adaptation)
+ * Bertso Errima Epaite Lana - Web Demoa
+ * 750 ms-ko errima epaiketa azkarraren paradigma (Knoop et al., 2021)
  */
 
 // --- 1. Stimuli & Conditions Configuration ---
@@ -121,107 +121,9 @@ const EXPERIMENTAL_TRIALS = [
 ];
 
 let allTrials = [];
+const fixedGroup = "A"; // Ezker Shift = Bai / Eskuin Shift = Ez
 
-// --- 2. Internationalization / Bilingual Strings ---
-const I18N = {
-  eu: {
-    langBtn: "English",
-    appHeader: "Errima Epaite Lana",
-    introTitle: "Errima Epaite Lana",
-    introSubtitle: "Bertso-pareen entzutezko errima-erabaki lana (<em>lau puntuko txikia</em>).",
-    instructions: `
-      <h3>Argibideak:</h3>
-      <ul>
-        <li>Bertso-kuplet bat entzungo duzu (~15 segundo). Ziurtatu audioa piztuta duzula.</li>
-        <li>Audioa amaitu bezain pronto, pantailan galdera agertuko da.</li>
-        <li>Erabaki bi lerroen amaierako hitzek <strong>errima egiten duten ala ez</strong>.</li>
-        <li><strong>Garrantzitsua:</strong> Erantzun ahal bezain azkar (<strong>750 ms</strong> erantzun-leihoa).</li>
-        <li>Lehenengo <strong>2 praktika-entsegu</strong> egingo dituzu zure erantzunaren itzuliarekin (feedback).</li>
-      </ul>
-    `,
-    labelPid: "Parte-hartzaile zenbakia / Participant ID:",
-    labelGroup: "Erantzun-teklak / Response keys:",
-    keysDisplayHtml: "<span><strong>[Ezker Shift]</strong> = Bai (Errima)</span><span><strong>[Eskuin Shift]</strong> = Ez (Ez du errimarik)</span>",
-    startPractice: "HASI PRAKTIKA",
-    listeningStatus: "Entzuten... / Listening...",
-    decisionPrompt: "Errima egin dute?",
-    deadlineLabel: "750 ms",
-    practiceFeedbackCorrect: "ZUZENA",
-    practiceFeedbackIncorrect: "OKERRA",
-    practiceFeedbackTimeout: "DENBORAZ KANPO (>750 ms)",
-    practiceMeta: (cur, tot) => `Praktika ${cur} / ${tot}`,
-    trialMeta: (cur, tot) => `Entsegua ${cur} / ${tot}`,
-    intermissionTitle: "Praktika Amaitu Da",
-    intermissionSubtitle: "Orain esperimentu nagusia hasiko da (8 entsegu).<br>Hemendik aurrera ez da itzulirik (feedbackik) emango.",
-    reminderHeading: "Teklen konfigurazioa:",
-    startExp: "HASI ESPERIMENTUA",
-    resultsTitle: "Emaitzak / Results",
-    resultsSubtitle: "Entseguen laburpena:",
-    statAccuracy: "Zehaztasuna",
-    statRt: "Batez besteko RT",
-    statTimeouts: "Timeouts (>750ms)",
-    colNum: "#",
-    colAudio: "Audio",
-    colWords: "Puntuak",
-    colCond: "Mota",
-    colResp: "Erantzuna",
-    colRt: "RT",
-    colCorrect: "Zuzena",
-    downloadCsv: "Deskargatu CSV",
-    restart: "Berriro Hasi"
-  },
-  en: {
-    langBtn: "Euskara",
-    appHeader: "Bertso Rhyme Judgment Task",
-    introTitle: "Rhyme Judgment Task",
-    introSubtitle: "Auditory speeded rhyme judgment for sung bertso couplets (<em>lau puntuko txikia</em>).",
-    instructions: `
-      <h3>Instructions:</h3>
-      <ul>
-        <li>You will listen to a sung bertso couplet (~15 seconds). Make sure audio is on.</li>
-        <li>As soon as the audio ends, the decision prompt will appear on screen.</li>
-        <li>Decide whether the final words of the two lines <strong>rhyme or do not rhyme</strong>.</li>
-        <li><strong>Important:</strong> Respond as quickly as possible (strict <strong>750 ms</strong> deadline).</li>
-        <li>First, you will complete <strong>2 practice trials</strong> with immediate feedback.</li>
-      </ul>
-    `,
-    labelPid: "Participant ID:",
-    labelGroup: "Response keys:",
-    keysDisplayHtml: "<span><strong>[Left Shift]</strong> = Yes (Rhyme)</span><span><strong>[Right Shift]</strong> = No (No rhyme)</span>",
-    startPractice: "START PRACTICE",
-    listeningStatus: "Listening...",
-    decisionPrompt: "Did they rhyme?",
-    deadlineLabel: "750 ms",
-    practiceFeedbackCorrect: "CORRECT",
-    practiceFeedbackIncorrect: "INCORRECT",
-    practiceFeedbackTimeout: "TIMEOUT (>750 ms)",
-    practiceMeta: (cur, tot) => `Practice ${cur} / ${tot}`,
-    trialMeta: (cur, tot) => `Trial ${cur} / ${tot}`,
-    intermissionTitle: "Practice Completed",
-    intermissionSubtitle: "Now the experimental block begins (8 trials).<br>No feedback will be provided during this phase.",
-    reminderHeading: "Key configuration:",
-    startExp: "START EXPERIMENT",
-    resultsTitle: "Results Summary",
-    resultsSubtitle: "Summary of experimental session:",
-    statAccuracy: "Accuracy",
-    statRt: "Mean RT",
-    statTimeouts: "Timeouts (>750ms)",
-    colNum: "#",
-    colAudio: "Audio",
-    colWords: "Rhyme Words",
-    colCond: "Type",
-    colResp: "Response",
-    colRt: "RT",
-    colCorrect: "Correct",
-    downloadCsv: "Download CSV",
-    restart: "Restart"
-  }
-};
-
-let currentLang = "eu";
-const fixedGroup = "A"; // Left Shift = Bai / Right Shift = Ez
-
-// --- 3. Experiment State Variables ---
+// --- 2. Experiment State Variables ---
 let currentTrialIndex = -1;
 let currentTrial = null;
 let trialStartTime = null;
@@ -230,7 +132,7 @@ let isAcceptingResponse = false;
 let recordedData = [];
 let audioPlayer = new Audio();
 
-// --- 4. DOM Elements ---
+// --- 3. DOM Elements ---
 const screens = {
   intro: document.getElementById("screenIntro"),
   listening: document.getElementById("screenListening"),
@@ -240,10 +142,7 @@ const screens = {
   results: document.getElementById("screenResults")
 };
 
-const elLangToggle = document.getElementById("langToggleBtn");
-const elLangLabel = document.getElementById("langLabel");
 const elParticipantId = document.getElementById("participantId");
-const elKeysDisplay = document.getElementById("keysDisplay");
 const elBtnStartPractice = document.getElementById("btnStartPractice");
 const elBtnStartExperiment = document.getElementById("btnStartExperiment");
 const elBtnRestart = document.getElementById("btnRestart");
@@ -252,13 +151,8 @@ const elBtnDownloadCsv = document.getElementById("btnDownloadCsv");
 // Trial visual elements
 const elListeningTrialMeta = document.getElementById("listeningTrialMeta");
 const elDecisionTrialMeta = document.getElementById("decisionTrialMeta");
-const elListeningStatus = document.getElementById("listeningStatus");
 const elAudioProgressBar = document.getElementById("audioProgressBar");
 const elDeadlineTimerBar = document.getElementById("deadlineTimerBar");
-const elLeftKeyBadge = document.getElementById("leftKeyBadge");
-const elLeftKeyMeaning = document.getElementById("leftKeyMeaning");
-const elRightKeyBadge = document.getElementById("rightKeyBadge");
-const elRightKeyMeaning = document.getElementById("rightKeyMeaning");
 const elBtnLeft = document.getElementById("btnLeft");
 const elBtnRight = document.getElementById("btnRight");
 
@@ -267,13 +161,12 @@ const elFeedbackTitle = document.getElementById("feedbackTitle");
 const elFeedbackDetails = document.getElementById("feedbackDetails");
 
 // Results elements
-const elStatAccuracy = document.getElementById("statAccuracy");
+const elStatTrialsCount = document.getElementById("statTrialsCount");
 const elStatMeanRt = document.getElementById("statMeanRt");
 const elStatTimeouts = document.getElementById("statTimeouts");
 const elResultsTableBody = document.getElementById("resultsTableBody");
-const elReminderKeysText = document.getElementById("reminderKeysText");
 
-// --- 5. Helper Functions ---
+// --- 4. Helper Functions ---
 function setScreen(screenName) {
   Object.values(screens).forEach(screen => screen.classList.remove("active"));
   if (screens[screenName]) {
@@ -281,56 +174,13 @@ function setScreen(screenName) {
   }
 }
 
-function updateKeyLabels() {
-  const t = I18N[currentLang];
-  elLeftKeyMeaning.textContent = currentLang === "eu" ? "Bai (Errima)" : "Yes (Rhyme)";
-  elRightKeyMeaning.textContent = currentLang === "eu" ? "Ez (Ez du errimarik)" : "No (No Rhyme)";
-  elLeftKeyBadge.textContent = currentLang === "eu" ? "Ezker Shift" : "Left Shift";
-  elRightKeyBadge.textContent = currentLang === "eu" ? "Eskuin Shift" : "Right Shift";
-
-  elReminderKeysText.innerHTML = `
-    <div>[${currentLang === "eu" ? "Ezker Shift" : "Left Shift"}] → ${currentLang === "eu" ? "Bai, errima dute" : "Yes, rhyme"}</div>
-    <div>[${currentLang === "eu" ? "Eskuin Shift" : "Right Shift"}] → ${currentLang === "eu" ? "Ez, ez dute errimarik" : "No, do not rhyme"}</div>
-  `;
-
-  if (elKeysDisplay) {
-    elKeysDisplay.innerHTML = t.keysDisplayHtml;
-  }
+function getParticipantNumber() {
+  const digits = elParticipantId.value.replace(/\D/g, "");
+  if (!digits) return "01";
+  return digits.padStart(2, "0").slice(-2);
 }
 
-function updateLanguage(lang) {
-  currentLang = lang;
-  const t = I18N[lang];
-  elLangLabel.textContent = t.langBtn;
-  document.getElementById("appHeaderTitle").textContent = t.appHeader;
-  document.getElementById("introTitle").textContent = t.introTitle;
-  document.getElementById("introSubtitle").innerHTML = t.introSubtitle;
-  document.getElementById("introInstructions").innerHTML = t.instructions;
-  document.getElementById("labelPid").textContent = t.labelPid;
-  document.getElementById("labelGroup").textContent = t.labelGroup;
-  document.getElementById("startPracticeLabel").textContent = t.startPractice;
-  
-  if (elListeningStatus) elListeningStatus.textContent = t.listeningStatus;
-  document.getElementById("decisionPrompt").textContent = t.decisionPrompt;
-  document.getElementById("deadlineLabel").textContent = t.deadlineLabel;
-  
-  document.getElementById("intermissionTitle").textContent = t.intermissionTitle;
-  document.getElementById("intermissionSubtitle").innerHTML = t.intermissionSubtitle;
-  document.getElementById("reminderHeading").textContent = t.reminderHeading;
-  document.getElementById("startExpLabel").textContent = t.startExp;
-
-  document.getElementById("resultsTitle").textContent = t.resultsTitle;
-  document.getElementById("resultsSubtitle").textContent = t.resultsSubtitle;
-  document.getElementById("statAccuracyLabel").textContent = t.statAccuracy;
-  document.getElementById("statRtLabel").textContent = t.statRt;
-  document.getElementById("statTimeoutsLabel").textContent = t.statTimeouts;
-  document.getElementById("downloadCsvLabel").textContent = t.downloadCsv;
-  document.getElementById("restartLabel").textContent = t.restart;
-
-  updateKeyLabels();
-}
-
-// --- 6. Trial Execution Flow ---
+// --- 5. Trial Execution Flow ---
 function buildTrialList() {
   allTrials = [
     ...PRACTICE_TRIALS.map((t, i) => ({ ...t, practice_index: i + 1 })),
@@ -357,11 +207,10 @@ function runTrial(index) {
   }
 
   currentTrial = allTrials[index];
-  const t = I18N[currentLang];
 
   const metaText = currentTrial.is_practice 
-    ? t.practiceMeta(currentTrial.practice_index, PRACTICE_TRIALS.length)
-    : t.trialMeta(currentTrial.exp_index, EXPERIMENTAL_TRIALS.length);
+    ? `Praktika ${currentTrial.practice_index} / ${PRACTICE_TRIALS.length}`
+    : `Entsegua ${currentTrial.exp_index} / ${EXPERIMENTAL_TRIALS.length}`;
   
   elListeningTrialMeta.textContent = metaText;
   elDecisionTrialMeta.textContent = metaText;
@@ -387,7 +236,7 @@ function runTrial(index) {
   };
 
   audioPlayer.onerror = (e) => {
-    console.error("Audio error:", e);
+    console.error("Audio playback error:", e);
     setTimeout(() => {
       startDecisionWindow();
     }, 1500);
@@ -449,9 +298,11 @@ function handleResponse(chosenKeyMeaning, timedOut = false) {
 
   recordedData.push(trialRecord);
 
+  // In Practice: Give feedback on the 2 anchor trials
   if (currentTrial.is_practice) {
     showPracticeFeedback(isCorrect, timedOut, rt);
   } else {
+    // In Experimental trials: 400ms blank ISI, no trial feedback
     setTimeout(() => {
       advanceTrial();
     }, 400);
@@ -460,19 +311,18 @@ function handleResponse(chosenKeyMeaning, timedOut = false) {
 
 function showPracticeFeedback(isCorrect, timedOut, rt) {
   setScreen("feedback");
-  const t = I18N[currentLang];
 
   if (timedOut) {
     elFeedbackTitle.className = "feedback-text-title timeout";
-    elFeedbackTitle.textContent = t.practiceFeedbackTimeout;
-    elFeedbackDetails.textContent = currentLang === "eu" ? "Erantzun 750 ms baino lehen!" : "Respond before the 750 ms deadline!";
+    elFeedbackTitle.textContent = "DENBORAZ KANPO (>750 ms)";
+    elFeedbackDetails.textContent = "Erantzun 750 ms baino lehen!";
   } else if (isCorrect) {
     elFeedbackTitle.className = "feedback-text-title correct";
-    elFeedbackTitle.textContent = t.practiceFeedbackCorrect;
+    elFeedbackTitle.textContent = "ZUZENA";
     elFeedbackDetails.textContent = `RT: ${rt} ms`;
   } else {
     elFeedbackTitle.className = "feedback-text-title incorrect";
-    elFeedbackTitle.textContent = t.practiceFeedbackIncorrect;
+    elFeedbackTitle.textContent = "OKERRA";
     elFeedbackDetails.textContent = `RT: ${rt} ms`;
   }
 
@@ -490,33 +340,29 @@ function advanceTrial() {
   }
 }
 
-// --- 7. Results & CSV Export ---
+// --- 6. Results & CSV Export ---
 function showResults() {
   setScreen("results");
-  const t = I18N[currentLang];
 
   const expData = recordedData.filter(d => d.is_practice === 0);
   const validExpTrials = expData.length > 0 ? expData : recordedData;
 
-  const correctCount = validExpTrials.filter(d => d.is_correct === 1).length;
   const timeoutCount = validExpTrials.filter(d => d.timed_out === 1).length;
   const validRts = validExpTrials.filter(d => d.timed_out === 0).map(d => d.rt);
   const meanRt = validRts.length > 0 ? Math.round(validRts.reduce((a, b) => a + b, 0) / validRts.length) : 0;
-  const accuracyPct = Math.round((correctCount / validExpTrials.length) * 100);
 
-  elStatAccuracy.textContent = `${accuracyPct}%`;
+  // Show only neutral metrics: count, mean RT, and timeouts (no accuracy percentage!)
+  elStatTrialsCount.textContent = `${validExpTrials.length}`;
   elStatMeanRt.textContent = `${meanRt} ms`;
   elStatTimeouts.textContent = `${timeoutCount}`;
 
+  // Populate results table WITHOUT any correctness column (no checkmarks or crosses)
   elResultsTableBody.innerHTML = "";
   recordedData.forEach((row) => {
     const tr = document.createElement("tr");
     const audioName = row.audio_file.split("/").pop();
     const isPracticeTag = row.is_practice ? "P" : "E";
-    
-    let respText = row.response_key === "b" ? "Bai" : row.response_key === "e" ? "Ez" : "TIMEOUT";
-    let corrClass = row.is_correct === 1 ? "corr-yes" : "corr-no";
-    let corrSymbol = row.is_correct === 1 ? "✓" : "✗";
+    const respText = row.response_key === "b" ? "Bai" : row.response_key === "e" ? "Ez" : "TIMEOUT";
 
     tr.innerHTML = `
       <td>${isPracticeTag}${row.trial_index}</td>
@@ -525,16 +371,9 @@ function showResults() {
       <td>${row.rhyme_type} (d${row.depth})</td>
       <td>${respText}</td>
       <td>${row.rt} ms</td>
-      <td class="${corrClass}">${corrSymbol}</td>
     `;
     elResultsTableBody.appendChild(tr);
   });
-}
-
-function getParticipantNumber() {
-  const digits = elParticipantId.value.replace(/\D/g, "");
-  if (!digits) return "01";
-  return digits.padStart(2, "0").slice(-2);
 }
 
 function downloadCsv() {
@@ -553,7 +392,7 @@ function downloadCsv() {
   document.body.removeChild(link);
 }
 
-// --- 8. Event Listeners & Keyboard Handling ---
+// --- 7. Event Listeners & Keyboard Handling ---
 window.addEventListener("keydown", (e) => {
   if (screens.intro.classList.contains("active") && (e.code === "Space" || e.code === "Enter")) {
     if (document.activeElement !== elParticipantId) {
@@ -572,10 +411,10 @@ window.addEventListener("keydown", (e) => {
   if (isAcceptingResponse) {
     if (e.code === "ShiftLeft") {
       e.preventDefault();
-      handleResponse("b", false); // Left Shift = Bai (Rhyme)
+      handleResponse("b", false); // Ezker Shift = Bai
     } else if (e.code === "ShiftRight") {
       e.preventDefault();
-      handleResponse("e", false); // Right Shift = Ez (No Rhyme)
+      handleResponse("e", false); // Eskuin Shift = Ez
     }
   }
 });
@@ -603,12 +442,3 @@ elBtnDownloadCsv.addEventListener("click", downloadCsv);
 elParticipantId.addEventListener("input", () => {
   elParticipantId.value = elParticipantId.value.replace(/\D/g, "").slice(0, 2);
 });
-
-elLangToggle.addEventListener("click", () => {
-  const nextLang = currentLang === "eu" ? "en" : "eu";
-  updateLanguage(nextLang);
-});
-
-// Initialize
-updateLanguage("eu");
-updateKeyLabels();

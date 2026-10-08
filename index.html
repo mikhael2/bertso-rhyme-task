@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Errima Epaite Lana — Bertso Rhyme Judgment Task</title>
+  <title>Errima Epaite Lana</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,11 +12,6 @@
     <header class="top-bar">
       <div class="brand">
         <span class="brand-title" id="appHeaderTitle">Errima Epaite Lana</span>
-      </div>
-      <div class="header-controls">
-        <button id="langToggleBtn" class="lang-btn" title="Hizkuntza aldatu / Change language">
-          <span id="langLabel">English</span>
-        </button>
       </div>
     </header>
 
@@ -31,24 +26,24 @@
         </p>
 
         <div class="instruction-box" id="introInstructions">
-          <h3>Argibideak / Instructions:</h3>
+          <h3>Argibideak:</h3>
           <ul>
             <li>Bertso-kuplet bat entzungo duzu (~15 segundo). Ziurtatu audioa piztuta duzula.</li>
-            <li>Audioa amaitu bezain pronto, pantailan galdera agertuko da.</li>
+            <li>Audioa amaitu bezain laster, pantailan galdera agertuko da.</li>
             <li>Erabaki bi lerroen amaierako hitzek <strong>errima egiten duten ala ez</strong>.</li>
-            <li><strong>Garrantzitsua:</strong> Erantzun ahal bezain azkar (<strong>750 ms</strong> erantzun-leihoa).</li>
-            <li>Lehenengo <strong>2 praktika-entsegu</strong> egingo dituzu zure erantzunaren itzuliarekin (feedback).</li>
+            <li><strong>Garrantzitsua:</strong> Erantzun ahalik eta azkarren (<strong>750 ms</strong>-ko erantzun-leihoa).</li>
+            <li>Lehenik <strong>2 praktika-entsegu</strong> egingo dituzu berehalako itzuliarekin.</li>
           </ul>
         </div>
 
         <div class="config-panel">
           <div class="config-row">
-            <label for="participantId" id="labelPid">Parte-hartzaile zenbakia / Participant ID:</label>
+            <label for="participantId" id="labelPid">Parte-hartzaile zenbakia:</label>
             <input type="text" id="participantId" value="" placeholder="01" maxlength="2" inputmode="numeric" pattern="[0-9]*" autocomplete="off" spellcheck="false">
           </div>
 
           <div class="config-row">
-            <label id="labelGroup">Erantzun-teklak / Response keys:</label>
+            <label id="labelGroup">Erantzun-teklak:</label>
             <div class="keys-display" id="keysDisplay">
               <span><strong>[Ezker Shift]</strong> = Bai (Errima)</span>
               <span><strong>[Eskuin Shift]</strong> = Ez (Ez du errimarik)</span>
@@ -59,7 +54,7 @@
         <div class="action-area">
           <button id="btnStartPractice" class="btn-action">
             <span id="startPracticeLabel">HASI PRAKTIKA</span>
-            <span class="key-hint">[Zuriunea / Space]</span>
+            <span class="key-hint">[Zuriunea]</span>
           </button>
         </div>
       </section>
@@ -73,7 +68,7 @@
           <div class="fixation-cross">+</div>
         </div>
 
-        <div class="listening-status" id="listeningStatus">Entzuten... / Listening...</div>
+        <div class="listening-status" id="listeningStatus">Entzuten...</div>
         
         <div class="audio-progress-track">
           <div class="audio-progress-fill" id="audioProgressBar"></div>
@@ -118,7 +113,7 @@
         <h2 class="page-title" id="intermissionTitle">Praktika Amaitu Da</h2>
         <p class="page-subtitle" id="intermissionSubtitle">
           Orain esperimentu nagusia hasiko da (8 entsegu).<br>
-          Hemendik aurrera ez da itzulirik (feedbackik) emango.
+          Hemendik aurrera ez da itzulirik emango.
         </p>
 
         <div class="reminder-box">
@@ -132,22 +127,22 @@
         <div class="action-area">
           <button id="btnStartExperiment" class="btn-action">
             <span id="startExpLabel">HASI ESPERIMENTUA</span>
-            <span class="key-hint">[Zuriunea / Space]</span>
+            <span class="key-hint">[Zuriunea]</span>
           </button>
         </div>
       </section>
 
       <!-- SCREEN 6: Results -->
       <section id="screenResults" class="screen-section">
-        <h2 class="page-title" id="resultsTitle">Emaitzak / Results</h2>
+        <h2 class="page-title" id="resultsTitle">Emaitzak</h2>
         <p class="page-subtitle" id="resultsSubtitle">
-          Entseguen laburpena:
+          Entseguak amaitu dira. Datuak beheko taulan grabatu dira:
         </p>
 
         <div class="stats-row">
           <div class="stat-box">
-            <div class="stat-number" id="statAccuracy">--%</div>
-            <div class="stat-tag" id="statAccuracyLabel">Zehaztasuna / Accuracy</div>
+            <div class="stat-number" id="statTrialsCount">--</div>
+            <div class="stat-tag" id="statTrialsLabel">Osatutako entseguak</div>
           </div>
           <div class="stat-box">
             <div class="stat-number" id="statMeanRt">-- ms</div>
@@ -155,7 +150,7 @@
           </div>
           <div class="stat-box">
             <div class="stat-number" id="statTimeouts">0</div>
-            <div class="stat-tag" id="statTimeoutsLabel">Timeouts (>750ms)</div>
+            <div class="stat-tag" id="statTimeoutsLabel">Denboraz kanpo (>750ms)</div>
           </div>
         </div>
 
@@ -169,7 +164,6 @@
                 <th>Mota</th>
                 <th>Erantzuna</th>
                 <th>RT</th>
-                <th>Zuzena</th>
               </tr>
             </thead>
             <tbody id="resultsTableBody"></tbody>
@@ -181,16 +175,16 @@
             <span id="downloadCsvLabel">Deskargatu CSV</span>
           </button>
           <button id="btnRestart" class="btn-action">
-            <span id="restartLabel">Berriro Hasi / Restart</span>
+            <span id="restartLabel">Berriro hasi</span>
           </button>
         </div>
       </section>
 
     </main>
 
-    <!-- Footer without institution mentions -->
+    <!-- Clean Footer -->
     <footer class="app-footer">
-      <span>Bertso Rhyme Task (2026)</span>
+      <span>Bertso Errima Ikerketa (2026)</span>
     </footer>
   </div>
 
