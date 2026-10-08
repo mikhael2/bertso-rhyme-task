@@ -18,37 +18,46 @@
     <!-- Main Experiment Surface -->
     <main class="main-card" id="cardContainer">
 
-      <!-- SCREEN 1: Welcome & Instructions -->
+      <!-- SCREEN 1: Welcome & Participant ID -->
       <section id="screenIntro" class="screen-section active">
         <h1 class="page-title" id="introTitle">Errima Epaite Lana</h1>
         <p class="page-subtitle" id="introSubtitle">
           Bertso-pareen entzutezko errima-erabaki lana (<em>lau puntuko txikia</em>).
         </p>
 
-        <div class="instruction-box" id="introInstructions">
-          <h3>Argibideak:</h3>
-          <ul>
-            <li>Bertso-kuplet bat entzungo duzu (~15 segundo). Ziurtatu audioa piztuta duzula.</li>
-            <li>Audioa amaitu bezain laster, pantailan galdera agertuko da.</li>
-            <li>Erabaki bi lerroen amaierako hitzek <strong>errima egiten duten ala ez</strong>.</li>
-            <li><strong>Garrantzitsua:</strong> Erantzun ahalik eta azkarren (<strong>750 ms</strong>-ko erantzun-leihoa).</li>
-            <li>Lehenik <strong>2 praktika-entsegu</strong> egingo dituzu berehalako itzuliarekin.</li>
-          </ul>
-        </div>
-
         <div class="config-panel">
           <div class="config-row">
             <label for="participantId" id="labelPid">Parte-hartzaile zenbakia:</label>
             <input type="text" id="participantId" value="" placeholder="01" maxlength="2" inputmode="numeric" pattern="[0-9]*" autocomplete="off" spellcheck="false">
           </div>
+        </div>
 
-          <div class="config-row">
-            <label id="labelGroup">Erantzun-teklak:</label>
-            <div class="keys-display" id="keysDisplay">
+        <div class="action-area">
+          <button id="btnToIntroInstructions" class="btn-action">
+            <span>AURRERA</span>
+            <span class="key-hint">[Zuriunea / Enter]</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 1B: Practice Instructions -->
+      <section id="screenPracticeInstructions" class="screen-section">
+        <h2 class="page-title">Argibideak</h2>
+        <p class="page-subtitle">
+          Praktika hasi aurretik, irakurri arretaz honako hau:
+        </p>
+
+        <div class="instruction-box">
+          <ul>
+            <li>Bertso-<strong>kopla</strong> bat entzungo duzu (~15 segundo). Ziurtatu audioa ondo entzuten dela.</li>
+            <li>Audioa amaitu bezain laster, erabaki lerroen bukaerako hitzek <strong>errima egiten duten ala ez</strong>:</li>
+            <div class="keys-display" style="margin: 10px 0;">
               <span><strong>[Ezker Shift]</strong> = Bai (Errima)</span>
               <span><strong>[Eskuin Shift]</strong> = Ez (Ez du errimarik)</span>
             </div>
-          </div>
+            <li><strong>Kontuz:</strong> Denbora gehiegi itxaroten baduzu (750 ms), esperimentua automatikoki aurrera joango da eta <strong>kopla berri bat</strong> entzungo duzu.</li>
+            <li>Lehenik <strong>2 praktika-entsegu</strong> egingo dituzu atzera-elikadurarekin (feedback), zereginera ohitzeko.</li>
+          </ul>
         </div>
 
         <div class="action-area">

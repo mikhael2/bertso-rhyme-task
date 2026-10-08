@@ -135,6 +135,7 @@ let audioPlayer = new Audio();
 // --- 3. DOM Elements ---
 const screens = {
   intro: document.getElementById("screenIntro"),
+  practiceInstructions: document.getElementById("screenPracticeInstructions"),
   listening: document.getElementById("screenListening"),
   decision: document.getElementById("screenDecision"),
   feedback: document.getElementById("screenFeedback"),
@@ -143,6 +144,7 @@ const screens = {
 };
 
 const elParticipantId = document.getElementById("participantId");
+const elBtnToIntroInstructions = document.getElementById("btnToIntroInstructions");
 const elBtnStartPractice = document.getElementById("btnStartPractice");
 const elBtnStartExperiment = document.getElementById("btnStartExperiment");
 const elBtnRestart = document.getElementById("btnRestart");
@@ -393,13 +395,25 @@ function downloadCsv() {
 }
 
 // --- 7. Event Listeners & Keyboard Handling ---
+function goToPracticeInstructions() {
+  setScreen("practiceInstructions");
+}
+
 window.addEventListener("keydown", (e) => {
   if (screens.intro.classList.contains("active") && (e.code === "Space" || e.code === "Enter")) {
-    if (document.activeElement !== elParticipantId) {
-      e.preventDefault();
-      startPractice();
+    if (document.activeElement === elParticipantId && e.code === "Space") {
+      // let participant type if needed
       return;
     }
+    e.preventDefault();
+    goToPracticeInstructions();
+    return;
+  }
+
+  if (screens.practiceInstructions.classList.contains("active") && (e.code === "Space" || e.code === "Enter")) {
+    e.preventDefault();
+    startPractice();
+    return;
   }
 
   if (screens.intermission.classList.contains("active") && (e.code === "Space" || e.code === "Enter")) {
@@ -431,6 +445,9 @@ elBtnRight.addEventListener("click", () => {
   }
 });
 
+if (elBtnToIntroInstructions) {
+  elBtnToIntroInstructions.addEventListener("click", goToPracticeInstructions);
+}
 elBtnStartPractice.addEventListener("click", startPractice);
 elBtnStartExperiment.addEventListener("click", startExperiment);
 elBtnRestart.addEventListener("click", () => {
