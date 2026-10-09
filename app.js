@@ -1,6 +1,6 @@
 /**
- * Bertso Errima Epaite Lana - Web Demoa
- * 750 ms-ko errima epaiketa azkarraren paradigma (Knoop et al., 2021)
+ * Bertso Errima-erabaki Lana - Web Demoa
+ * 1000 ms-ko errima-erabaki azkarraren paradigma (Knoop et al., 2021 egokitzapena)
  */
 
 // --- 1. Stimuli & Conditions Configuration ---
@@ -122,6 +122,7 @@ const EXPERIMENTAL_TRIALS = [
 
 let allTrials = [];
 const fixedGroup = "A"; // Ezker Shift = Bai / Eskuin Shift = Ez
+const DECISION_DEADLINE_MS = 1000; // 1 segundo (1000 ms)
 
 // --- 2. Experiment State Variables ---
 let currentTrialIndex = -1;
@@ -129,6 +130,8 @@ let currentTrial = null;
 let trialStartTime = null;
 let deadlineTimeoutId = null;
 let isAcceptingResponse = false;
+let isPostAudioBuffer = false;
+let pendingBufferedResponse = null;
 let recordedData = [];
 let audioPlayer = new Audio();
 
@@ -182,6 +185,14 @@ function getParticipantNumber() {
   return digits.padStart(2, "0").slice(-2);
 }
 
+function isLeftShiftKey(e) {
+  return e.code === "ShiftLeft" || (e.key === "Shift" && e.location === 1);
+}
+
+function isRightShiftKey(e) {
+  return e.code === "ShiftRight" || (e.key === "Shift" && e.location === 2);
+}
+
 // --- 5. Trial Execution Flow ---
 function buildTrialList() {
   allTrials = [
@@ -209,6 +220,9 @@ function runTrial(index) {
   }
 
   currentTrial = allTrials[index];
+  isAcceptingResponse = false;
+  isPostAudioBuffer = false;
+  pendingBufferedResponse = null;
 
   const metaText = currentTrial.is_practice 
     ? `Praktika ${currentTrial.practice_index} / ${PRACTICE_TRIALS.length}`
@@ -232,7 +246,9 @@ function runTrial(index) {
 
   audioPlayer.onended = () => {
     elAudioProgressBar.style.width = "100%";
+    isPostAudioBuffer = true;
     setTimeout(() => {
+      isPostAudioBuffer = false;
       startDecisionWindow();
     }, 50);
   };
@@ -254,10 +270,18 @@ function startDecisionWindow() {
   isAcceptingResponse = true;
   trialStartTime = performance.now();
 
+  // If a response was pressed during the 50ms buffer right at audio offset, handle immediately
+  if (pendingBufferedResponse) {
+    const bufferedKey = pendingBufferedResponse;
+    pendingBufferedResponse = null;
+    handleResponse(bufferedKey, false, 20);
+    return;
+  }
+
   elDeadlineTimerBar.style.transition = "none";
   elDeadlineTimerBar.style.transform = "scaleX(1)";
   void elDeadlineTimerBar.offsetWidth;
-  elDeadlineTimerBar.style.transition = "transform 750ms linear";
+  elDeadlineTimerBar.style.transition = `transform ${DECISION_DEADLINE_MS}ms linear`;
   elDeadlineTimerBar.style.transform = "scaleX(0)";
 
   clearTimeout(deadlineTimeoutId);
@@ -265,15 +289,18 @@ function startDecisionWindow() {
     if (isAcceptingResponse) {
       handleResponse(null, true);
     }
-  }, 750);
+  }, DECISION_DEADLINE_MS);
 }
 
-function handleResponse(chosenKeyMeaning, timedOut = false) {
+function handleResponse(chosenKeyMeaning, timedOut = false, forcedRt = null) {
   if (!isAcceptingResponse) return;
   isAcceptingResponse = false;
   clearTimeout(deadlineTimeoutId);
 
-  const rt = timedOut ? 750 : Math.round(performance.now() - trialStartTime);
+  const rt = timedOut 
+    ? DECISION_DEADLINE_MS 
+    : (forcedRt !== null ? forcedRt : Math.round(performance.now() - trialStartTime));
+
   const correctKey = currentTrial.correct_key;
   const isCorrect = (!timedOut) && (chosenKeyMeaning === correctKey);
 
@@ -316,8 +343,8 @@ function showPracticeFeedback(isCorrect, timedOut, rt) {
 
   if (timedOut) {
     elFeedbackTitle.className = "feedback-text-title timeout";
-    elFeedbackTitle.textContent = "DENBORAZ KANPO (>750 ms)";
-    elFeedbackDetails.textContent = "Erantzun 750 ms baino lehen!";
+    elFeedbackTitle.textContent = "DENBORAZ KANPO (>1000 ms)";
+    elFeedbackDetails.textContent = "Erantzun 1000 ms baino lehen!";
   } else if (isCorrect) {
     elFeedbackTitle.className = "feedback-text-title correct";
     elFeedbackTitle.textContent = "ZUZENA";
@@ -402,7 +429,6 @@ function goToPracticeInstructions() {
 window.addEventListener("keydown", (e) => {
   if (screens.intro.classList.contains("active") && (e.code === "Space" || e.code === "Enter")) {
     if (document.activeElement === elParticipantId && e.code === "Space") {
-      // let participant type if needed
       return;
     }
     e.preventDefault();
@@ -422,11 +448,25 @@ window.addEventListener("keydown", (e) => {
     return;
   }
 
+  // Handle anticipatory key buffering during post-audio buffer (50 ms)
+  if (isPostAudioBuffer) {
+    if (isLeftShiftKey(e)) {
+      e.preventDefault();
+      pendingBufferedResponse = "b";
+      return;
+    } else if (isRightShiftKey(e)) {
+      e.preventDefault();
+      pendingBufferedResponse = "e";
+      return;
+    }
+  }
+
+  // Handle active decision window response
   if (isAcceptingResponse) {
-    if (e.code === "ShiftLeft") {
+    if (isLeftShiftKey(e)) {
       e.preventDefault();
       handleResponse("b", false); // Ezker Shift = Bai
-    } else if (e.code === "ShiftRight") {
+    } else if (isRightShiftKey(e)) {
       e.preventDefault();
       handleResponse("e", false); // Eskuin Shift = Ez
     }

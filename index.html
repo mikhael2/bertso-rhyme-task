@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Errima Epaite Lana</title>
+  <title>Errima-erabaki Lana</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <!-- Top Bar -->
     <header class="top-bar">
       <div class="brand">
-        <span class="brand-title" id="appHeaderTitle">Errima Epaite Lana</span>
+        <span class="brand-title" id="appHeaderTitle">Errima-erabaki Lana</span>
       </div>
     </header>
 
@@ -20,9 +20,9 @@
 
       <!-- SCREEN 1: Welcome & Participant ID -->
       <section id="screenIntro" class="screen-section active">
-        <h1 class="page-title" id="introTitle">Errima Epaite Lana</h1>
+        <h1 class="page-title" id="introTitle">Errima-erabaki Lana</h1>
         <p class="page-subtitle" id="introSubtitle">
-          Bertso-pareen entzutezko errima-erabaki lana (<em>lau puntuko txikia</em>).
+          Bertso-kupleten entzutezko errima-erabaki lana (<em>lau puntuko txikia</em>).
         </p>
 
         <div class="config-panel">
@@ -49,14 +49,14 @@
 
         <div class="instruction-box">
           <ul>
-            <li>Bertso-<strong>kopla</strong> bat entzungo duzu (~15 segundo). Ziurtatu audioa ondo entzuten dela.</li>
+            <li>Bertso-<strong>kuplet</strong> bat entzungo duzu (~15 segundo). Ziurtatu audioa ondo entzuten dela.</li>
             <li>Audioa amaitu bezain laster, erabaki lerroen bukaerako hitzek <strong>errima egiten duten ala ez</strong>:</li>
             <div class="keys-display" style="margin: 10px 0;">
               <span><strong>[Ezker Shift]</strong> = Bai (Errima)</span>
               <span><strong>[Eskuin Shift]</strong> = Ez (Ez du errimarik)</span>
             </div>
-            <li><strong>Kontuz:</strong> Denbora gehiegi itxaroten baduzu (750 ms), esperimentua automatikoki aurrera joango da eta <strong>kopla berri bat</strong> entzungo duzu.</li>
-            <li>Lehenik <strong>2 praktika-entsegu</strong> egingo dituzu atzera-elikadurarekin (feedback), zereginera ohitzeko.</li>
+            <li><strong>Kontuz:</strong> Denbora gehiegi itxaroten baduzu (1000 ms), esperimentua automatikoki aurrera joango da eta <strong>kuplet berri bat</strong> entzungo duzu.</li>
+            <li>Lehenik <strong>2 praktika-entsegu</strong> egingo dituzu zure erantzuna zuzena den ala ez ikusteko, zereginera ohitzeko.</li>
           </ul>
         </div>
 
@@ -84,7 +84,7 @@
         </div>
       </section>
 
-      <!-- SCREEN 3: Decision Window (750ms Deadline) -->
+      <!-- SCREEN 3: Decision Window (1000ms Deadline) -->
       <section id="screenDecision" class="screen-section">
         <div class="trial-counter" id="decisionTrialMeta">Praktika 1 / 2</div>
         
@@ -92,11 +92,11 @@
           <h2 class="decision-prompt" id="decisionPrompt">Errima egin dute?</h2>
         </div>
 
-        <!-- 750ms Stark Deadline Bar -->
+        <!-- 1000ms Stark Deadline Bar -->
         <div class="deadline-track">
           <div class="deadline-fill" id="deadlineTimerBar"></div>
         </div>
-        <div class="deadline-text" id="deadlineLabel">750 ms</div>
+        <div class="deadline-text" id="deadlineLabel">1000 ms</div>
 
         <div class="response-panel">
           <button id="btnLeft" class="stark-key-btn btn-left-key">
@@ -159,7 +159,7 @@
           </div>
           <div class="stat-box">
             <div class="stat-number" id="statTimeouts">0</div>
-            <div class="stat-tag" id="statTimeoutsLabel">Denboraz kanpo (>750ms)</div>
+            <div class="stat-tag" id="statTimeoutsLabel">Denboraz kanpo (>1000ms)</div>
           </div>
         </div>
 
