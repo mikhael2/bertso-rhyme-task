@@ -173,9 +173,13 @@ const elResultsTableBody = document.getElementById("resultsTableBody");
 
 // --- 4. Helper Functions ---
 function setScreen(screenName) {
-  Object.values(screens).forEach(screen => screen.classList.remove("active"));
+  Object.values(screens).forEach(screen => {
+    if (screen) screen.classList.remove("active");
+  });
   if (screens[screenName]) {
     screens[screenName].classList.add("active");
+  } else {
+    console.error("Unknown screen:", screenName);
   }
   const elTopBar = document.querySelector(".top-bar");
   if (elTopBar) {
@@ -188,7 +192,7 @@ function setScreen(screenName) {
 }
 
 function getParticipantNumber() {
-  const digits = elParticipantId.value.replace(/\D/g, "");
+  const digits = elParticipantId ? elParticipantId.value.replace(/\D/g, "") : "01";
   if (!digits) return "01";
   return digits.padStart(2, "0").slice(-2);
 }
@@ -232,10 +236,11 @@ function runTrial(index) {
   isPostAudioBuffer = false;
   pendingBufferedResponse = null;
 
+  // Immediately transition screen to listening (fixation cross)
+  setScreen("listening");
+
   if (elListeningTrialMeta) elListeningTrialMeta.textContent = "";
   if (elDecisionTrialMeta) elDecisionTrialMeta.textContent = "";
-
-  setScreen("listening");
   if (elAudioProgressBar) elAudioProgressBar.style.width = "0%";
 
   audioPlayer.src = currentTrial.audio_file;
@@ -477,29 +482,43 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-elBtnLeft.addEventListener("click", () => {
-  if (isAcceptingResponse) {
-    handleResponse("b", false);
-  }
-});
+if (elBtnLeft) {
+  elBtnLeft.addEventListener("click", () => {
+    if (isAcceptingResponse) {
+      handleResponse("b", false);
+    }
+  });
+}
 
-elBtnRight.addEventListener("click", () => {
-  if (isAcceptingResponse) {
-    handleResponse("e", false);
-  }
-});
+if (elBtnRight) {
+  elBtnRight.addEventListener("click", () => {
+    if (isAcceptingResponse) {
+      handleResponse("e", false);
+    }
+  });
+}
 
 if (elBtnToIntroInstructions) {
   elBtnToIntroInstructions.addEventListener("click", goToPracticeInstructions);
 }
-elBtnStartPractice.addEventListener("click", startPractice);
-elBtnStartExperiment.addEventListener("click", startExperiment);
-elBtnRestart.addEventListener("click", () => {
-  audioPlayer.pause();
-  setScreen("intro");
-});
-elBtnDownloadCsv.addEventListener("click", downloadCsv);
+if (elBtnStartPractice) {
+  elBtnStartPractice.addEventListener("click", startPractice);
+}
+if (elBtnStartExperiment) {
+  elBtnStartExperiment.addEventListener("click", startExperiment);
+}
+if (elBtnRestart) {
+  elBtnRestart.addEventListener("click", () => {
+    audioPlayer.pause();
+    setScreen("intro");
+  });
+}
+if (elBtnDownloadCsv) {
+  elBtnDownloadCsv.addEventListener("click", downloadCsv);
+}
 
-elParticipantId.addEventListener("input", () => {
-  elParticipantId.value = elParticipantId.value.replace(/\D/g, "").slice(0, 2);
-});
+if (elParticipantId) {
+  elParticipantId.addEventListener("input", () => {
+    elParticipantId.value = elParticipantId.value.replace(/\D/g, "").slice(0, 2);
+  });
+}

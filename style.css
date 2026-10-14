@@ -103,7 +103,7 @@ body {
 }
 
 .screen-section.active {
-  display: flex;
+  display: flex !important;
 }
 
 /* TITLES & HEADINGS */
@@ -223,6 +223,10 @@ body {
   align-items: center;
   gap: 10px;
   font-family: var(--font-system);
+}
+
+.btn-action * {
+  pointer-events: none;
 }
 
 .btn-action:hover {

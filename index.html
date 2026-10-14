@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Errima-erabaki Lana</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <div class="app-container">
@@ -70,6 +70,11 @@
 
       <!-- SCREEN 2: Audio Playing (Fixation Cross) -->
       <section id="screenListening" class="screen-section">
+        <!-- Hidden fallback elements to ensure compatibility with cached scripts -->
+        <div id="listeningTrialMeta" style="display:none;" aria-hidden="true"></div>
+        <div id="listeningStatus" style="display:none;" aria-hidden="true"></div>
+        <div id="audioProgressBar" style="display:none;" aria-hidden="true"></div>
+
         <!-- Standard Laboratory Fixation Cross -->
         <div class="fixation-container">
           <div class="fixation-cross">+</div>
@@ -78,6 +83,8 @@
 
       <!-- SCREEN 3: Decision Window (750ms Deadline) -->
       <section id="screenDecision" class="screen-section">
+        <div id="decisionTrialMeta" style="display:none;" aria-hidden="true"></div>
+
         <div class="decision-prompt-container">
           <h2 class="decision-prompt" id="decisionPrompt">Errima egin dute?</h2>
         </div>
@@ -182,6 +189,6 @@
     </main>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>
