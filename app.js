@@ -414,9 +414,23 @@ function showResults() {
   });
 }
 
+function abortToResults() {
+  audioPlayer.pause();
+  audioPlayer.currentTime = 0;
+  clearTimeout(deadlineTimeoutId);
+  isAcceptingResponse = false;
+  isPostAudioBuffer = false;
+  pendingBufferedResponse = null;
+  if (allTrials.length === 0) {
+    buildTrialList();
+  }
+  showResults();
+}
+
 function downloadCsv() {
-  if (recordedData.length === 0) return;
-  const headers = Object.keys(recordedData[0]).join(",");
+  const headers = recordedData.length > 0
+    ? Object.keys(recordedData[0]).join(",")
+    : "trial_index,is_practice,participant,group,audio_file,depth,rhyme_type,puntua1,puntua2,bertsolari,neurri,correct_key,response_key,rt,timed_out,is_correct";
   const rows = recordedData.map(r => Object.values(r).map(v => typeof v === "string" && v.includes(",") ? `"${v}"` : v).join(","));
   const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
   
@@ -436,6 +450,13 @@ function goToPracticeInstructions() {
 }
 
 window.addEventListener("keydown", (e) => {
+  // ESCAPE KEY: Immediately jump to results screen to export CSV
+  if (e.code === "Escape" || e.key === "Escape") {
+    e.preventDefault();
+    abortToResults();
+    return;
+  }
+
   if (screens.intro.classList.contains("active") && (e.code === "Space" || e.code === "Enter")) {
     if (document.activeElement === elParticipantId && e.code === "Space") {
       return;
