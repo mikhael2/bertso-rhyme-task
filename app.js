@@ -532,6 +532,7 @@ if (elBtnStartExperiment) {
 if (elBtnRestart) {
   elBtnRestart.addEventListener("click", () => {
     audioPlayer.pause();
+    if (elParticipantId) elParticipantId.value = "";
     setScreen("intro");
   });
 }
