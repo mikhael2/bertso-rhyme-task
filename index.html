@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Errima-erabaki Lana</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <div class="app-container">
@@ -138,49 +138,58 @@
         </div>
       </section>
 
-      <!-- SCREEN 6: Results -->
+      <!-- SCREEN 6: Thank you & Export CSV -->
       <section id="screenResults" class="screen-section">
-        <h2 class="page-title" id="resultsTitle">Emaitzak</h2>
+        <h2 class="page-title" id="resultsTitle">Mila esker parte hartzeagatik!</h2>
         <p class="page-subtitle" id="resultsSubtitle">
-          Entseguak amaitu dira. Datuak beheko taulan grabatu dira:
+          Esperimentua amaitu da. Datuak ondo erregistratu dira.
         </p>
 
-        <div class="stats-row">
-          <div class="stat-box">
-            <div class="stat-number" id="statTrialsCount">--</div>
-            <div class="stat-tag" id="statTrialsLabel">Osatutako entseguak</div>
+        <!-- Step-by-step export card -->
+        <div class="export-card">
+          <div class="export-step">
+            <div class="step-badge">1</div>
+            <div class="step-content">
+              <h3>Deskargatu CSV fitxategia</h3>
+              <p>Egin klik botoi honetan zure emaitzak fitxategi batean gordetzeko:</p>
+              <button id="btnDownloadCsv" class="btn-action btn-download-primary">
+                <span id="downloadCsvLabel">⬇ DESKARGATU CSV</span>
+              </button>
+            </div>
           </div>
-          <div class="stat-box">
-            <div class="stat-number" id="statMeanRt">-- ms</div>
-            <div class="stat-tag" id="statRtLabel">Batez besteko RT</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-number" id="statTimeouts">0</div>
-            <div class="stat-tag" id="statTimeoutsLabel">Denboraz kanpo (>750ms)</div>
+
+          <div class="export-step">
+            <div class="step-badge">2</div>
+            <div class="step-content">
+              <h3>Bidali fitxategia Mikhaeli</h3>
+              <p>Mesedez, bidali deskargatutako CSV fitxategia honako bide hauetako baten bidez:</p>
+              
+              <div class="send-options-row">
+                <a id="btnSendEmail" href="mailto:mikhael2@illinois.edu" class="btn-send btn-email">
+                  <span>✉ Posta elektronikoz bidali</span>
+                </a>
+                
+                <a id="btnSendWhatsapp" href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="btn-send btn-whatsapp">
+                  <span>💬 WhatsApp bidez bidali</span>
+                </a>
+              </div>
+
+              <div class="email-direct-info">
+                <span>Helbide elektronikoa: <strong>mikhael2@illinois.edu</strong></span>
+                <span class="attachment-hint">(Gogoratu deskargatutako CSV fitxategia mezuan atxikitzea)</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="table-wrap">
-          <table class="data-table" id="resultsTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Audio</th>
-                <th>Puntuak</th>
-                <th>Mota</th>
-                <th>Erantzuna</th>
-                <th>RT</th>
-              </tr>
-            </thead>
-            <tbody id="resultsTableBody"></tbody>
-          </table>
-        </div>
+        <!-- Hidden fallback elements to ensure script compatibility -->
+        <div id="statTrialsCount" style="display:none;" aria-hidden="true"></div>
+        <div id="statMeanRt" style="display:none;" aria-hidden="true"></div>
+        <div id="statTimeouts" style="display:none;" aria-hidden="true"></div>
+        <table style="display:none;" aria-hidden="true"><tbody id="resultsTableBody"></tbody></table>
 
-        <div class="action-row">
-          <button id="btnDownloadCsv" class="btn-secondary">
-            <span id="downloadCsvLabel">Deskargatu CSV</span>
-          </button>
-          <button id="btnRestart" class="btn-action">
+        <div class="action-row" style="margin-top: 20px;">
+          <button id="btnRestart" class="btn-secondary">
             <span id="restartLabel">Berriro hasi</span>
           </button>
         </div>
@@ -189,6 +198,6 @@
     </main>
   </div>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

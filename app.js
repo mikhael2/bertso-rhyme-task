@@ -382,36 +382,37 @@ function advanceTrial() {
 function showResults() {
   setScreen("results");
 
-  const expData = recordedData.filter(d => d.is_practice === 0);
-  const validExpTrials = expData.length > 0 ? expData : recordedData;
+  const pid = getParticipantNumber();
+  const headers = recordedData.length > 0
+    ? Object.keys(recordedData[0]).join(",")
+    : "trial_index,is_practice,participant,group,audio_file,depth,rhyme_type,puntua1,puntua2,bertsolari,neurri,correct_key,response_key,rt,timed_out,is_correct";
+  const rows = recordedData.map(r => Object.values(r).map(v => typeof v === "string" && v.includes(",") ? `"${v}"` : v).join(","));
+  const csvContent = [headers, ...rows].join("\n");
 
-  const timeoutCount = validExpTrials.filter(d => d.timed_out === 1).length;
-  const validRts = validExpTrials.filter(d => d.timed_out === 0).map(d => d.rt);
-  const meanRt = validRts.length > 0 ? Math.round(validRts.reduce((a, b) => a + b, 0) / validRts.length) : 0;
+  // Dynamic Email link with prefilled subject and body (including raw data fallback)
+  const elBtnSendEmail = document.getElementById("btnSendEmail");
+  if (elBtnSendEmail) {
+    const emailSubject = encodeURIComponent(`Bertso Errima Ikerketa - Emaitzak [Parte-hartzailea ${pid}]`);
+    const emailBody = encodeURIComponent(
+      `Kaixo Mikhael,\n\nHemen dituzu nire bertso-errima esperimentuko emaitzak (Parte-hartzailea: ${pid}).\n\n(Deskargatutako CSV fitxategia mezu honetan atxikituta dago)\n\n--- Datuak ---\n${csvContent}\n`
+    );
+    elBtnSendEmail.href = `mailto:mikhael2@illinois.edu?subject=${emailSubject}&body=${emailBody}`;
+  }
 
-  // Show only neutral metrics: count, mean RT, and timeouts (no accuracy percentage!)
-  elStatTrialsCount.textContent = `${validExpTrials.length}`;
-  elStatMeanRt.textContent = `${meanRt} ms`;
-  elStatTimeouts.textContent = `${timeoutCount}`;
+  // Dynamic WhatsApp link with prefilled message
+  const elBtnSendWhatsapp = document.getElementById("btnSendWhatsapp");
+  if (elBtnSendWhatsapp) {
+    const whatsappText = encodeURIComponent(
+      `Kaixo Mikhael! Hemen dituzu nire bertso-errima esperimentuko emaitzak (Parte-hartzailea: ${pid}). CSV fitxategia bidaltzen dizut.`
+    );
+    elBtnSendWhatsapp.href = `https://wa.me/?text=${whatsappText}`;
+  }
 
-  // Populate results table WITHOUT any correctness column (no checkmarks or crosses)
-  elResultsTableBody.innerHTML = "";
-  recordedData.forEach((row) => {
-    const tr = document.createElement("tr");
-    const audioName = row.audio_file.split("/").pop();
-    const isPracticeTag = row.is_practice ? "P" : "E";
-    const respText = row.response_key === "b" ? "Bai" : row.response_key === "e" ? "Ez" : "TIMEOUT";
-
-    tr.innerHTML = `
-      <td>${isPracticeTag}${row.trial_index}</td>
-      <td title="${audioName}">${audioName.substring(0, 18)}…</td>
-      <td>${row.puntua1} / ${row.puntua2}</td>
-      <td>${row.rhyme_type} (d${row.depth})</td>
-      <td>${respText}</td>
-      <td>${row.rt} ms</td>
-    `;
-    elResultsTableBody.appendChild(tr);
-  });
+  // Safe updates to hidden fallback elements
+  if (elStatTrialsCount) elStatTrialsCount.textContent = `${recordedData.length}`;
+  if (elStatMeanRt) elStatMeanRt.textContent = `-- ms`;
+  if (elStatTimeouts) elStatTimeouts.textContent = `0`;
+  if (elResultsTableBody) elResultsTableBody.innerHTML = "";
 }
 
 function abortToResults() {
