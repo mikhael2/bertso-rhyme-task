@@ -122,7 +122,7 @@ const EXPERIMENTAL_TRIALS = [
 
 let allTrials = [];
 const fixedGroup = "A"; // Ezker Shift = Bai / Eskuin Shift = Ez
-const DECISION_DEADLINE_MS = 750; // 750 ms-ko epea
+const DECISION_DEADLINE_MS = 2000; // 2000 ms-ko epea
 
 // --- 2. Experiment State Variables ---
 let currentTrialIndex = -1;
@@ -352,8 +352,8 @@ function showPracticeFeedback(isCorrect, timedOut, rt) {
 
   if (timedOut) {
     elFeedbackTitle.className = "feedback-text-title timeout";
-    elFeedbackTitle.textContent = "DENBORAZ KANPO (>750 ms)";
-    elFeedbackDetails.textContent = "Erantzun 750 ms baino lehen!";
+    elFeedbackTitle.textContent = "DENBORAZ KANPO (>2000 ms)";
+    elFeedbackDetails.textContent = "Erantzun 2000 ms baino lehen!";
   } else if (isCorrect) {
     elFeedbackTitle.className = "feedback-text-title correct";
     elFeedbackTitle.textContent = "ZUZENA";
