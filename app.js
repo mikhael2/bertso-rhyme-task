@@ -1,6 +1,6 @@
 /**
  * Bertso Errima-erabaki Lana - Web Demoa
- * 1000 ms-ko errima-erabaki azkarraren paradigma (Knoop et al., 2021 egokitzapena)
+ * 750 ms-ko errima-erabaki azkarraren paradigma (Knoop et al., 2021 egokitzapena)
  */
 
 // --- 1. Stimuli & Conditions Configuration ---
@@ -122,7 +122,7 @@ const EXPERIMENTAL_TRIALS = [
 
 let allTrials = [];
 const fixedGroup = "A"; // Ezker Shift = Bai / Eskuin Shift = Ez
-const DECISION_DEADLINE_MS = 1000; // 1 segundo (1000 ms)
+const DECISION_DEADLINE_MS = 750; // 750 ms-ko epea
 
 // --- 2. Experiment State Variables ---
 let currentTrialIndex = -1;
@@ -177,6 +177,14 @@ function setScreen(screenName) {
   if (screens[screenName]) {
     screens[screenName].classList.add("active");
   }
+  const elTopBar = document.querySelector(".top-bar");
+  if (elTopBar) {
+    if (["listening", "decision", "feedback"].includes(screenName)) {
+      elTopBar.classList.add("hidden");
+    } else {
+      elTopBar.classList.remove("hidden");
+    }
+  }
 }
 
 function getParticipantNumber() {
@@ -224,28 +232,24 @@ function runTrial(index) {
   isPostAudioBuffer = false;
   pendingBufferedResponse = null;
 
-  const metaText = currentTrial.is_practice 
-    ? `Praktika ${currentTrial.practice_index} / ${PRACTICE_TRIALS.length}`
-    : `Entsegua ${currentTrial.exp_index} / ${EXPERIMENTAL_TRIALS.length}`;
-  
-  elListeningTrialMeta.textContent = metaText;
-  elDecisionTrialMeta.textContent = metaText;
+  if (elListeningTrialMeta) elListeningTrialMeta.textContent = "";
+  if (elDecisionTrialMeta) elDecisionTrialMeta.textContent = "";
 
   setScreen("listening");
-  elAudioProgressBar.style.width = "0%";
+  if (elAudioProgressBar) elAudioProgressBar.style.width = "0%";
 
   audioPlayer.src = currentTrial.audio_file;
   audioPlayer.currentTime = 0;
 
   audioPlayer.ontimeupdate = () => {
-    if (audioPlayer.duration) {
+    if (audioPlayer.duration && elAudioProgressBar) {
       const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
       elAudioProgressBar.style.width = `${pct}%`;
     }
   };
 
   audioPlayer.onended = () => {
-    elAudioProgressBar.style.width = "100%";
+    if (elAudioProgressBar) elAudioProgressBar.style.width = "100%";
     isPostAudioBuffer = true;
     setTimeout(() => {
       isPostAudioBuffer = false;
@@ -343,8 +347,8 @@ function showPracticeFeedback(isCorrect, timedOut, rt) {
 
   if (timedOut) {
     elFeedbackTitle.className = "feedback-text-title timeout";
-    elFeedbackTitle.textContent = "DENBORAZ KANPO (>1000 ms)";
-    elFeedbackDetails.textContent = "Erantzun 1000 ms baino lehen!";
+    elFeedbackTitle.textContent = "DENBORAZ KANPO (>750 ms)";
+    elFeedbackDetails.textContent = "Erantzun 750 ms baino lehen!";
   } else if (isCorrect) {
     elFeedbackTitle.className = "feedback-text-title correct";
     elFeedbackTitle.textContent = "ZUZENA";

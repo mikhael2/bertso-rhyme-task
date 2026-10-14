@@ -6,7 +6,7 @@
 This web application implements a speeded rhyme decision paradigm testing whether native and proficient Basque speakers perceive rhyme in sung bertso couplets (*kupletak*).
 
 ### Key Features
-- **Speeded Decision Window:** A **1000 ms** response deadline (with 50 ms post-stimulus buffer) following audio offset, adapted from Knoop et al. (2021).
+- **Speeded Decision Window:** A **750 ms** response deadline (with 50 ms post-stimulus buffer) following audio offset, adapted from Knoop et al. (2021).
 - **Keyboard & Click Input:**
   - Response keys: **Ezker Shift** = Bai (Errima) vs. **Eskuin Shift** = Ez (Ez du errimarik).
   - Also responsive to mouse/touch input on mobile and desktop.
